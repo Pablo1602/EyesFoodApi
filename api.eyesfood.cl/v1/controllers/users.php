@@ -234,7 +234,7 @@ class users {
                     // Preparar sentencia
                     $preparedStament = $pdo->prepare($sentence);
                     $preparedStament->bindParam(1, dbResult["idUsuario"]);
-                    $preparedStament->execute()
+                    $preparedStament->execute();
                     if(!(self::findUserAllergy(dbResult["idUsuario"]))){
                         throw new ApiException(
                             400,
@@ -285,7 +285,7 @@ class users {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia SELECT
-            $sentence = "SELECT * FROM usuarios WHERE Correo=?";
+            $sentence = "SELECT * FROM usuarios WHERE Correo = ?";
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
@@ -294,7 +294,7 @@ class users {
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
                 $userData = $preparedSentence->fetch(PDO::FETCH_ASSOC);
-
+                return $userData;
                 // Verificar contraseña
                 if (password_verify($password, $userData["hash_password"])) {
                     return $userData;
