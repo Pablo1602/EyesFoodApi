@@ -11,7 +11,7 @@ require 'controllers/comments.php';
 require 'controllers/experts.php';
 require 'controllers/help.php';
 require 'controllers/measures.php';
-require 'controllers/ratings.php';
+require 'controllers/ratings.php'
 require 'views/XmlView.php';
 require 'views/JsonView.php';
 require 'utils/ApiException.php';

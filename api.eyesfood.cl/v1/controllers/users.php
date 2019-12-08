@@ -121,7 +121,7 @@ class users {
         }
     }
 
-    private static function authUser() {
+     private static function authUser() {
 
         // Obtener parámetros de la petición
         $parameters = file_get_contents('php://input');
@@ -221,34 +221,53 @@ class users {
             // Ejecutar sentencia
             if($preparedStament->execute()){
                 // Buscar usuario en la tabla
-        $dbResult = self::findUserByCredentials($id, $password);
+                $dbResult = self::findUserByCredentials($id, $password);
 
-        // Procesar resultado de la consulta
-        // El de la derecha es la columna de la base de datos, case sensitive
-        if ($dbResult != NULL) {
-            return [
-                "status" => 200,
-                "idUsuario" => $dbResult["idUsuario"],
-                "Nombre" => $dbResult["Nombre"],
-                "Apellido" => $dbResult["Apellido"],
-                "Correo" => $dbResult["Correo"],
-                "FotoUsuario" => $dbResult["FotoUsuario"],
-                "Reputacion" => $dbResult["Reputacion"],
-                "FechaNacimiento" => $dbResult["FechaNacimiento"],
-                "Sexo" => $dbResult["Sexo"],
-                "Estatura" => $dbResult["Estatura"],
-                "Nacionalidad" => $dbResult["Nacionalidad"],
-                "rol" => $dbResult["rol"]
-            ];
-        } else {
-            throw new ApiException(
-                400,
-                0,
-                "Número de identificación o contraseña inválidos",
-                "http://localhost",
-                "Puede que no exista un usuario creado con el correo \"$userId\" o que la contraseña \"$password\" sea incorrecta."
-            );
-        }
+                // Procesar resultado de la consulta
+                if ($dbResult != NULL) {
+                    // Crear alergia del nuevo usuario
+                    $pdo = MysqlManager::get()->getDb();
+                    // Componer sentencia INSERT
+                    $sentence = "INSERT INTO usuario_alergia (idUsuario)" .
+                        " VALUES (?)";
+
+                    // Preparar sentencia
+                    $preparedStament = $pdo->prepare($sentence);
+                    $preparedStament->bindParam(1, dbResult["idUsuario"]);
+                    $preparedStament->execute()
+                    if(!(self::findUserAllergy(dbResult["idUsuario"]))){
+                        throw new ApiException(
+                            400,
+                            0,
+                            "http://localhost",
+                            "No se pudo crear alergeno del usuario \"$correo\"."
+                        );       
+                    }
+
+                    return [
+                    // El de la derecha es la columna de la base de datos, case sensitive
+                        "status" => 200,
+                        "idUsuario" => $dbResult["idUsuario"],
+                        "Nombre" => $dbResult["Nombre"],
+                        "Apellido" => $dbResult["Apellido"],
+                        "Correo" => $dbResult["Correo"],
+                        "FotoUsuario" => $dbResult["FotoUsuario"],
+                        "Reputacion" => $dbResult["Reputacion"],
+                        "FechaNacimiento" => $dbResult["FechaNacimiento"],
+                        "Sexo" => $dbResult["Sexo"],
+                        "Estatura" => $dbResult["Estatura"],
+                        "Nacionalidad" => $dbResult["Nacionalidad"],
+                        "rol" => $dbResult["rol"]
+                    ];
+                } else {
+                    throw new ApiException(
+                        400,
+                        0,
+                        "Número de identificación o contraseña inválidos",
+                        "http://localhost",
+                        "Puede que no exista un usuario creado con el correo \"$correo\" o que la contraseña \"$password\" sea incorrecta."
+                    );
+                }
             }
 
         } catch (PDOException $e) {
@@ -323,7 +342,7 @@ class users {
         $correo = $decodedParameters["correo"];
         $dbResult = self::findExternalUser($correo);
         
-        if ($dbResult) {
+        if ($dbResult == null) {
             return $dbResult;
         } else {
             throw new ApiException(
@@ -456,7 +475,7 @@ class users {
                 0,
                 "Número de identificación o contraseña inválidos",
                 "http://localhost",
-                "Puede que no exista un usuario creado con el correo \"$userId\" o que la contraseña \"$password\" sea incorrecta."
+                "Puede que no exista un usuario creado con el correo \"$correo\" o que la contraseña \"$password\" sea incorrecta."
             );
         }
             }
@@ -470,6 +489,8 @@ class users {
                 "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
         }
     }
+
+
 
     private static function retrieveUser($codigo) {
         
@@ -506,6 +527,40 @@ class users {
         }
     }
     
+    private static function findUserAllergy($idUsuario) {
+        
+        try {
+            $pdo = MysqlManager::get()->getDb();
+
+            // Componer sentencia SELECT
+            $sentence = "SELECT * FROM usuario_alergia WHERE idUsuario = ?";
+
+            // Preparar sentencia
+            $preparedSentence = $pdo->prepare($sentence);
+            $preparedSentence->bindParam(1, $idUsuario, PDO::PARAM_INT);
+
+            // Ejecutar sentencia
+            if ($preparedSentence->execute()) {
+                return $preparedSentence->fetch(PDO::FETCH_ASSOC);
+            } else {
+                throw new ApiException(
+                    500,
+                    0,
+                    "Error de base de datos en el servidor",
+                    "http://localhost",
+                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
+                );
+            }
+
+        } catch (PDOException $e) {
+            throw new ApiException(
+                500,
+                0,
+                "Error de base de datos en el servidor",
+                "http://localhost",
+                "Ocurrió el siguiente error al consultar el usuario: " . $e->getMessage());
+        }
+    }
 
 }
 

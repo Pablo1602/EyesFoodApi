@@ -2,7 +2,7 @@
 require_once 'data/MysqlManager.php';
 
 /**
- * Controlador del endpoint /foods
+ * Controlador del endpoint /measures
  */
 class measures
 {

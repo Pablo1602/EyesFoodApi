@@ -62,6 +62,14 @@ class comments
                         return self::deleteComment($urlSegments[1]);
                     }
                     break;
+                case 'editar':
+                    if($urlSegments[1] == "respuesta"){
+                        return self::editResponse($urlSegments[2]);
+                    }
+                    else{
+                        return self::editComment($urlSegments[1]);
+                    }
+                    break;
                 default:
                     //$urlSegments[0] = 1 (alimentos) 
                     //$urlSegments[1] = barcode
@@ -372,6 +380,42 @@ class comments
         }
     }
 
+    private static function findResponse($idRespuesta) {    
+        try {
+            $pdo = MysqlManager::get()->getDb();
+
+            // Componer sentencia SELECT
+            $sentence = "SELECT *"
+                        . " FROM respuesta"
+                        . " WHERE idRespuesta = ?";
+
+            // Preparar sentencia
+            $preparedSentence = $pdo->prepare($sentence);
+            $preparedSentence->bindParam(1, $idRespuesta, PDO::PARAM_INT);
+
+            // Ejecutar sentencia
+            if ($preparedSentence->execute()) {
+                return $preparedSentence->fetch(PDO::FETCH_ASSOC);
+            } else {
+                throw new ApiException(
+                    500,
+                    0,
+                    "Error de base de datos en el servidor",
+                    "http://localhost",
+                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
+                );
+            }
+
+        } catch (PDOException $e) {
+            throw new ApiException(
+                500,
+                0,
+                "Error de base de datos en el servidor",
+                "http://localhost",
+                "Ocurrió el siguiente error al consultar el usuario: " . $e->getMessage());
+        }
+    }
+
     private static function deleteResponse($idRespuesta){
     try {
         $pdo = MysqlManager::get()->getDb();
@@ -424,7 +468,7 @@ class comments
             // Componer sentencia SELECT
             $sentence = "SELECT *"
                         . " FROM respuesta"
-                        . " WHERE idExperto = ?";
+                        . " WHERE idRespuesta = ?";
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
@@ -487,6 +531,130 @@ class comments
             "Error de base de datos en el servidor",
             "http://localhost",
             "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
+        }
+    }
+
+    public static function modifyComment($idComentario){
+    // Obtener parámetros de la petición
+    $parameters = file_get_contents('php://input');
+    $decodedParameters = json_decode($parameters, true);
+
+    // Controlar posible error de parsing JSON
+    if (json_last_error() != JSON_ERROR_NONE) {
+        $internalServerError = new ApiException(
+            500,
+            0,
+            "Error interno en el servidor. Contacte al administrador",
+            "http://localhost",
+            "Error de parsing JSON. Causa: " . json_last_error_msg());
+        throw $internalServerError;
+    }
+    $comentario = $decodedParameters["comentario"];
+    try {
+        $pdo = MysqlManager::get()->getDb();
+
+        // Verificar integridad de datos
+        // TODO: Implementar restricciones de datos adicionales
+        // Componer sentencia UPDATE
+        $sentence = "UPDATE comentarios "
+                . "SET comentario = ? "
+                . "WHERE idComentario = ?";
+
+        // Preparar sentencia
+        $preparedStatement = $pdo->prepare($sentence);
+        $preparedStatement->bindParam(1, $comentario, PDO::PARAM_INT);
+        $preparedStatement->bindParam(2, $idComentario, PDO::PARAM_INT);
+
+        // Ejecutar sentencia
+        if ($preparedStatement->execute()) {
+
+            $rowCount = $preparedStatement->rowCount();
+            $dbResult = self::findComment($idComentario);
+
+        // Procesar resultado de la consulta
+        // El de la derecha es la columna de la base de datos, case sensitive
+        if ($dbResult != NULL) {
+            return $dbResult;
+        } else {
+            throw new ApiException(
+                400,
+                0,
+                "Número de identificación o contraseña inválidos",
+                "http://localhost",
+                "Puede que no exista un usuario creado con el correo \"$userId\" o que la contraseña \"$password\" sea incorrecta."
+            );
+        }
+            }
+
+        } catch (PDOException $e) {
+            throw new ApiException(
+                500,
+                0,
+                "Error de base de datos en el servidor",
+                "http://localhost",
+                "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+        }
+    }
+    
+    public static function modifyResponse($idRespuesta){
+    // Obtener parámetros de la petición
+    $parameters = file_get_contents('php://input');
+    $decodedParameters = json_decode($parameters, true);
+
+    // Controlar posible error de parsing JSON
+    if (json_last_error() != JSON_ERROR_NONE) {
+        $internalServerError = new ApiException(
+            500,
+            0,
+            "Error interno en el servidor. Contacte al administrador",
+            "http://localhost",
+            "Error de parsing JSON. Causa: " . json_last_error_msg());
+        throw $internalServerError;
+    }
+    $comentario = $decodedParameters["comentario"];
+    try {
+        $pdo = MysqlManager::get()->getDb();
+
+        // Verificar integridad de datos
+        // TODO: Implementar restricciones de datos adicionales
+        // Componer sentencia UPDATE
+        $sentence = "UPDATE respuesta "
+                . "SET comentario = ? "
+                . "WHERE idRespuesta = ?";
+
+        // Preparar sentencia
+        $preparedStatement = $pdo->prepare($sentence);
+        $preparedStatement->bindParam(1, $comentario, PDO::PARAM_INT);
+        $preparedStatement->bindParam(2, $idRespuesta, PDO::PARAM_INT);
+        
+        // Ejecutar sentencia
+        if ($preparedStatement->execute()) {
+
+            $rowCount = $preparedStatement->rowCount();
+            $dbResult = self::findResponse($idRespuesta);
+
+        // Procesar resultado de la consulta
+        // El de la derecha es la columna de la base de datos, case sensitive
+        if ($dbResult != NULL) {
+            return $dbResult;
+        } else {
+            throw new ApiException(
+                400,
+                0,
+                "Número de identificación o contraseña inválidos",
+                "http://localhost",
+                "Puede que no exista un usuario creado con el correo \"$userId\" o que la contraseña \"$password\" sea incorrecta."
+            );
+        }
+            }
+
+        } catch (PDOException $e) {
+            throw new ApiException(
+                500,
+                0,
+                "Error de base de datos en el servidor",
+                "http://localhost",
+                "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
         }
     }
 }
