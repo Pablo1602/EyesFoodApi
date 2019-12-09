@@ -122,7 +122,6 @@ class search
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
                 //$sentencia->bindParam(':consulta', $query, PDO::PARAM_STR);
                 $queryFinal = "%" . $query . "%";
-                $queryFinalFinal = $queryFinal . "%";
                 $sentencia->bindParam(1, $queryFinal, PDO::PARAM_INT);
                 $sentencia->bindParam(2, $queryFinal, PDO::PARAM_INT);
 
@@ -171,7 +170,7 @@ class search
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE ? AND trazas NOT LIKE ? LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = "'%" . $query . "%'";
+                $queryFinal = '%' . $query . '%';
                 $sentencia->bindParam(1, $queryFinal, PDO::PARAM_INT);
                 $sentencia->bindParam(2, $queryFinal, PDO::PARAM_INT);
             }

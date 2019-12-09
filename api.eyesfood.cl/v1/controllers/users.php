@@ -366,7 +366,6 @@ class users {
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
             $preparedSentence->bindParam(1, $correo, PDO::PARAM_STR, 128);
-
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
                 return $preparedSentence->fetch(PDO::FETCH_ASSOC);

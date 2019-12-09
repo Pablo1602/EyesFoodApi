@@ -460,43 +460,6 @@ class comments
                 "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
         }
     }
-    
-    private static function findResponse($idRespuesta) {    
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-            // Componer sentencia SELECT
-            $sentence = "SELECT *"
-                        . " FROM respuesta"
-                        . " WHERE idRespuesta = ?";
-
-            // Preparar sentencia
-            $preparedSentence = $pdo->prepare($sentence);
-            $preparedSentence->bindParam(1, $idRespuesta, PDO::PARAM_INT);
-
-            // Ejecutar sentencia
-            if ($preparedSentence->execute()) {
-                return $preparedSentence->fetch(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-            throw new ApiException(
-                500,
-                0,
-                "Error de base de datos en el servidor",
-                "http://localhost",
-                "Ocurrió el siguiente error al consultar el usuario: " . $e->getMessage());
-        }
-    }
-
 
     private static function retrieveHistoryComments($codigoBarras)
     {

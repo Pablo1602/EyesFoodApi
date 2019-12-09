@@ -24,7 +24,7 @@ class allergy
         }
         else {
             if(isset($urlSegments[0])){
-                return self::getAllergyUser($urlSegments[0])
+                return self::getAllergyUser($urlSegments[0]);
             }
         }
     }
