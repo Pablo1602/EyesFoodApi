@@ -53,8 +53,7 @@ class allergy
 
             $comando = "SELECT *"
                     . " FROM usuario_alergia"
-                    . " WHERE idUsuario=?"
-                    . " ORDER BY fecha DESC";
+                    . " WHERE idUsuario=?";
 
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
