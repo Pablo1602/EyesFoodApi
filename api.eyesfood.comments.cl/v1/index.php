@@ -38,7 +38,7 @@ if (isset($_GET['PATH_INFO'])) {
 
 // Obtener recurso
 $resource = array_shift($urlSegments);
-$apiResources = array('users', 'foods', 'additives', 'history', 'search', 'images', 'experts', 'help', 'ratings', 'measures', 'allergy', 'comments');
+$apiResources = array('comments');
 
 // Comprobar si existe el recurso
 if (!in_array($resource, $apiResources)) {
