@@ -290,16 +290,11 @@ class users {
                 . " WHERE Correo = ?";
 
             // Preparar sentencia
-            echo $userId;
-            echo "\n";
-            echo $password;
-            echo "\n";
             $preparedSentence = $pdo->prepare($sentence);
-            $preparedSentence->bindParam(1, $userId, PDO::PARAM_INT);
+            $preparedSentence->bindParam(1, $userId, PDO::PARAM_STR, 128);
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
                 $userData = $preparedSentence->fetch(PDO::FETCH_ASSOC);
-                echo $userData["Correo"];
                 // Verificar contraseña
                 if (password_verify($password, $userData["hash_password"])) {
                     return $userData;
