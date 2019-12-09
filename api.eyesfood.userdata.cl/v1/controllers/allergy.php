@@ -61,7 +61,7 @@ class allergy
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+                return $sentencia->fetch(PDO::FETCH_ASSOC);
             } else {
                 throw new ApiException(
                     500,
