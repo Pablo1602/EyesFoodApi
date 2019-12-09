@@ -7,10 +7,8 @@ require 'controllers/additives.php';
 require 'controllers/history.php';
 require 'controllers/search.php';
 require 'controllers/images.php';
-require 'controllers/comments.php';
 require 'controllers/experts.php';
 require 'controllers/help.php';
-require 'controllers/measures.php';
 require 'controllers/ratings.php';
 require 'views/XmlView.php';
 require 'views/JsonView.php';
@@ -48,7 +46,7 @@ if (isset($_GET['PATH_INFO'])) {
 
 // Obtener recurso
 $resource = array_shift($urlSegments);
-$apiResources = array('users', 'foods', 'additives', 'history', 'search', 'images', 'comments', 'experts', 'help', 'measures', 'ratings');
+$apiResources = array('users', 'foods', 'additives', 'history', 'search', 'images', 'experts', 'help', 'ratings');
 
 // Comprobar si existe el recurso
 if (!in_array($resource, $apiResources)) {
