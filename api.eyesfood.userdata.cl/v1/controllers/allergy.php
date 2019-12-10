@@ -128,7 +128,7 @@ class allergy
 
             // Componer sentencia UPDATE
             $sentence = "UPDATE usuario_alergia "
-                    . "SET leche = ? AND gluten = ?"
+                    . "SET leche = ?, gluten = ?"
                     . "WHERE idUsuario = ?";
 
             // Preparar sentencia
