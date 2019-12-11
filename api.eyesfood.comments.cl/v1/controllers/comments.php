@@ -525,7 +525,7 @@ class comments
 
         // Preparar sentencia
         $preparedStatement = $pdo->prepare($sentence);
-        $preparedStatement->bindParam(1, $comentario, PDO::PARAM_INT);
+        $preparedStatement->bindParam(1, $comentario);
         $preparedStatement->bindParam(2, $idComentario, PDO::PARAM_INT);
 
         // Ejecutar sentencia
@@ -587,7 +587,7 @@ class comments
 
         // Preparar sentencia
         $preparedStatement = $pdo->prepare($sentence);
-        $preparedStatement->bindParam(1, $comentario, PDO::PARAM_INT);
+        $preparedStatement->bindParam(1, $comentario);
         $preparedStatement->bindParam(2, $idRespuesta, PDO::PARAM_INT);
         
         // Ejecutar sentencia
