@@ -497,7 +497,7 @@ class comments
         }
     }
 
-    public static function modifyComment($idComentario){
+    public static function editComment($idComentario){
     // Obtener parámetros de la petición
     $parameters = file_get_contents('php://input');
     $decodedParameters = json_decode($parameters, true);
@@ -559,7 +559,7 @@ class comments
         }
     }
     
-    public static function modifyResponse($idRespuesta){
+    public static function editResponse($idRespuesta){
     // Obtener parámetros de la petición
     $parameters = file_get_contents('php://input');
     $decodedParameters = json_decode($parameters, true);
