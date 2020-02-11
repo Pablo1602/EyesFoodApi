@@ -16,18 +16,15 @@ class diary
                 "El recurso $_SERVER[REQUEST_URI] no esta sujeto a resultados"
             );
         }
+        else if (isset($urlSegments[0])) {
+            return self::retrievediary($urlSegments[0]);
+        }
         else if (isset($urlSegments[1])) {
-            switch ($urlSegments[0]) {
-                case 'entrada':
-                     return self::retrieveEntry($urlSegments[1]);
-                    break;
-                default: 
-                    return self::retrievediary($urlSegments[0]);
-                    break;
-            }
+            return self::retrieveEntry($urlSegments[1]);
+
        }
        else if(isset($urlSegments[2])){
-            return self:retrieveEntryDate($urlSegments[1], $urlSegments[2])
+            return self::retrieveEntryDate($urlSegments[1], $urlSegments[2]);
        }
     }
 
@@ -92,7 +89,7 @@ class diary
                         . " WHERE idUsuario = ?";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $sentencia->bindParam(1, $idUsuario, PDO::PARAM_INT);
+                $sentencia->bindParam(1, $idUsuario);
 
 
             // Ejecutar sentencia preparada, si pongo fetchAll muere el historial
