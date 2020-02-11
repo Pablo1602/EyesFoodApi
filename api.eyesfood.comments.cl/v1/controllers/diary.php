@@ -86,7 +86,7 @@ class diary
             $pdo = MysqlManager::get()->getDb();
                 $comando = "SELECT *"
                         . " FROM diarios"
-                        . " WHERE idUsuario = ?";
+                        . " WHERE idUsuario = ? AND borrar = 0";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 $sentencia->bindParam(1, $idUsuario);
@@ -121,7 +121,7 @@ class diary
             $pdo = MysqlManager::get()->getDb();
                 $comando = "SELECT *"
                         . " FROM entradas"
-                        . " WHERE idDiario = ?";
+                        . " WHERE idDiario = ? AND borrar = 0";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 $sentencia->bindParam(1, $idDiario, PDO::PARAM_INT);
@@ -156,7 +156,7 @@ class diary
             $pdo = MysqlManager::get()->getDb();
                 $comando = "SELECT *"
                         . " FROM entradas"
-                        . " WHERE idDiario = ?, fecha = ?";
+                        . " WHERE idDiario = ? AND fecha = ? AND borrar = 0";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 $sentencia->bindParam(1, $idDiario, PDO::PARAM_INT);
