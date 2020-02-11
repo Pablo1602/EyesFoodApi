@@ -42,7 +42,26 @@ class diary
         }
         //Hacer switch case para encontrar la URL tipo comments/respuesta/{id}
         // o URL tipo comments/{contexto}/{id}
+        else if (isset($urlSegments[0])) {
+            return self::newDiary($urlSegments[0]);
+        }
         else if (isset($urlSegments[1])) {
+            switch ($urlSegments[0]) {
+                case 'entrada':
+                    return self::newEntry($urlSegments[1]);
+                    break;
+                case 'editar':
+                    return self::modifyDiary($urlSegments[1]);
+                    break;
+                case 'borrar':
+                    return self::deleteDiary($urlSegments[1]);
+                    break;
+                default:
+                    break;
+            }
+
+       }
+       else if(isset($urlSegments[2])){
             switch ($urlSegments[0]) {
                 case 'entrada':
                      switch($urlSegments[1]){
@@ -52,20 +71,7 @@ class diary
                         case 'borrar':
                             return self::deleteEntry($urlSegments[2]);
                             break;
-                        default:
-                            return self::newEntry($urlSegments[1]);
-                            break;
-                     }
-                    break;
-                case 'editar':
-                    return self::modifyDiary($urlSegments[1]);
-                    break;
-                case 'borrar':
-                    return self::deleteDiary($urlSegments[1]);
-                    break;
-                default: 
-                    return self::newDiary($urlSegments[0]);
-                    break;
+                    }
             }
        }
     }
