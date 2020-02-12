@@ -513,7 +513,7 @@ class diary
             // Preparar sentencia
             $preparedStatement = $pdo->prepare($sentence);
             $preparedStatement->bindParam(1, $titulo);
-            $preparedStatement->bindParam(2, $idDiario);
+            $preparedStatement->bindParam(2, $idDiario, PDO::PARAM_INT);
 
             // Ejecutar sentencia
             if ($preparedStatement->execute()) {
@@ -578,7 +578,7 @@ class diary
             $preparedStatement->bindParam(1, $titulo);
             $preparedStatement->bindParam(2, $texto);
             $preparedStatement->bindParam(3, $fecha);
-            $preparedStatement->bindParam(4, $idEntry);
+            $preparedStatement->bindParam(4, $idEntry, PDO::PARAM_INT);
 
             // Ejecutar sentencia
             if ($preparedStatement->execute()) {
