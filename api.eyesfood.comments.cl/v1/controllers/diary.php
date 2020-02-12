@@ -42,6 +42,35 @@ class diary
         }
         //Hacer switch case para encontrar la URL tipo comments/respuesta/{id}
         // o URL tipo comments/{contexto}/{id}
+        else if (isset($urlSegments[1])) {
+            switch ($urlSegments[0]) {
+                case 'entrada':
+                     return self::newEntry($urlSegments[1]);
+                    break;
+                case 'borrar':
+                    if($urlSegments[1] == "entrada"){
+                        return self::deleteEntry($urlSegments[2]);
+                    }
+                    else{
+                        return self::deleteDiary($urlSegments[1]);
+                    }
+                    break;
+                case 'editar':
+                    if($urlSegments[1] == "entrada"){
+                        return self::modifyEntry($urlSegments[2]);
+                    }
+                    else{
+                        return self::modifyDiary($urlSegments[1]);
+                    }
+                    break;
+                default:
+                    //$urlSegments[0] = 1 (alimentos) 
+                    //$urlSegments[1] = barcode
+                    return self::newDiary($urlSegments[0]);
+                    break;
+            }
+       }
+
         else if(isset($urlSegments[2])){
             switch ($urlSegments[0]) {
                 case 'entrada':
