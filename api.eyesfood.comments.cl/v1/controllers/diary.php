@@ -17,15 +17,20 @@ class diary
             );
         }
         else if (isset($urlSegments[0])) {
-            return self::retrievediary($urlSegments[0]);
+            switch ($urlSegments[0]) {
+                case 'entrada':
+                    if(isset($urlSegments[2])){
+                        return self::retrieveEntryDate($urlSegments[1], $urlSegments[2]);
+                    }
+                    else{    
+                        return self::retrieveEntry($urlSegments[1]);
+                    }
+                    break;
+                default:
+                    return self::retrievediary($urlSegments[0]);
+                    break;
+            }
         }
-        else if (isset($urlSegments[1])) {
-            return self::retrieveEntry($urlSegments[1]);
-
-       }
-       else if(isset($urlSegments[2])){
-            return self::retrieveEntryDate($urlSegments[1], $urlSegments[2]);
-       }
     }
 
     public static function post($urlSegments)
@@ -42,7 +47,7 @@ class diary
         }
         //Hacer switch case para encontrar la URL tipo comments/respuesta/{id}
         // o URL tipo comments/{contexto}/{id}
-        else if (isset($urlSegments[1])) {
+        else if (isset($urlSegments[0])) {
             switch ($urlSegments[0]) {
                 case 'entrada':
                      return self::newEntry($urlSegments[1]);
@@ -64,44 +69,9 @@ class diary
                     }
                     break;
                 default:
-                    //$urlSegments[0] = 1 (alimentos) 
-                    //$urlSegments[1] = barcode
                     return self::newDiary($urlSegments[0]);
                     break;
             }
-       }
-
-        else if(isset($urlSegments[2])){
-            switch ($urlSegments[0]) {
-                case 'entrada':
-                     switch($urlSegments[1]){
-                        case 'editar':
-                            return self::modifyEntry($urlSegments[2]);
-                            break;
-                        case 'borrar':
-                            return self::deleteEntry($urlSegments[2]);
-                            break;
-                    }
-            }
-       }
-        else if (isset($urlSegments[1])) {
-            switch ($urlSegments[0]) {
-                case 'entrada':
-                    return self::newEntry($urlSegments[1]);
-                    break;
-                case 'editar':
-                    return self::modifyDiary($urlSegments[1]);
-                    break;
-                case 'borrar':
-                    return self::deleteDiary($urlSegments[1]);
-                    break;
-                default:
-                    break;
-            }
-
-       }
-        else if (isset($urlSegments[0])) {
-            return self::newDiary($urlSegments[0]);
         }
     }
 
@@ -159,7 +129,7 @@ class diary
                         . " WHERE idDiario = ? AND borrar = 0";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $sentencia->bindParam(1, $idDiario, PDO::PARAM_INT);
+                $sentencia->bindParam(1, $idDiario);
 
 
             // Ejecutar sentencia preparada, si pongo fetchAll muere el historial
@@ -185,7 +155,7 @@ class diary
         }
     }
 
-        private static function retrieveEntryDate($idDiario, $fecha)
+    private static function retrieveEntryDate($idDiario, $fecha)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -194,8 +164,8 @@ class diary
                         . " WHERE idDiario = ? AND fecha = ? AND borrar = 0";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $sentencia->bindParam(1, $idDiario, PDO::PARAM_INT);
-                $sentencia->bindParam(2, $fecha, PDO::PARAM_STRING);
+                $sentencia->bindParam(1, $idDiario);
+                $sentencia->bindParam(2, $fecha);
 
 
             // Ejecutar sentencia preparada, si pongo fetchAll muere el historial
@@ -542,7 +512,7 @@ class diary
             // Preparar sentencia
             $preparedStatement = $pdo->prepare($sentence);
             $preparedStatement->bindParam(1, $titulo);
-            $preparedStatement->bindParam(2, $idDiario, PDO::PARAM_INT);
+            $preparedStatement->bindParam(2, $idDiario);
 
             // Ejecutar sentencia
             if ($preparedStatement->execute()) {
@@ -591,7 +561,6 @@ class diary
         }
         $titulo = $decodedParameters["titulo"];
         $texto = $decodedParameters["texto"];
-        $fecha = $decodedParameters["fecha"];
         try {
             $pdo = MysqlManager::get()->getDb();
 
@@ -606,8 +575,7 @@ class diary
             $preparedStatement = $pdo->prepare($sentence);
             $preparedStatement->bindParam(1, $titulo);
             $preparedStatement->bindParam(2, $texto);
-            $preparedStatement->bindParam(3, $fecha);
-            $preparedStatement->bindParam(4, $idEntry, PDO::PARAM_INT);
+            $preparedStatement->bindParam(3, $idEntry);
 
             // Ejecutar sentencia
             if ($preparedStatement->execute()) {
