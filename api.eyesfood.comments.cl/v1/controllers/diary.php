@@ -498,8 +498,8 @@ class diary
                 "Error de parsing JSON. Causa: " . json_last_error_msg());
             throw $internalServerError;
         }
-        $titulo = $decodedParameters["titulo"];
         try {
+            $titulo = $decodedParameters["titulo"];
             $pdo = MysqlManager::get()->getDb();
 
             // Verificar integridad de datos
@@ -512,7 +512,7 @@ class diary
             // Preparar sentencia
             $preparedStatement = $pdo->prepare($sentence);
             $preparedStatement->bindParam(1, $titulo);
-            $preparedStatement->bindParam(2, $idDiario);
+            $preparedStatement->bindParam(2, $idDiario, PDO::PARAM_INT);
 
             // Ejecutar sentencia
             if ($preparedStatement->execute()) {
