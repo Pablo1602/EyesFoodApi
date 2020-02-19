@@ -47,7 +47,7 @@ class diary
         }
         //Hacer switch case para encontrar la URL tipo comments/respuesta/{id}
         // o URL tipo comments/{contexto}/{id}
-        else if (isset($urlSegments[0])) {
+        else if (isset($urlSegments[1])) {
             switch ($urlSegments[0]) {
                 case 'entrada':
                      return self::newEntry($urlSegments[1]);
@@ -422,7 +422,7 @@ class diary
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
-            $preparedSentence->bindParam(1, $idDiario);
+            $preparedSentence->bindParam(1, $idDiario, PDO::PARAM_INT);
 
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
@@ -498,8 +498,8 @@ class diary
                 "Error de parsing JSON. Causa: " . json_last_error_msg());
             throw $internalServerError;
         }
+        $titulo = $decodedParameters["titulo"];
         try {
-            $titulo = $decodedParameters["titulo"];
             $pdo = MysqlManager::get()->getDb();
 
             // Verificar integridad de datos
