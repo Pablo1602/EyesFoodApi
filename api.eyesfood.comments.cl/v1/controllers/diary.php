@@ -62,10 +62,10 @@ class diary
                     break;
                 case 'editar':
                     if($urlSegments[1] == "entrada"){
-                        return self::modifyEntry($urlSegments[2]);
+                        return self::editEntry($urlSegments[2]);
                     }
                     else{
-                        return self::modifyDiary($urlSegments[1]);
+                        return self::editDiary($urlSegments[1]);
                     }
                     break;
                 default:
@@ -298,7 +298,7 @@ class diary
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO entradas (idUsuario, titulo, texto, fecha)" .
+            $sentence = "INSERT INTO entradas (idDiario, titulo, texto, fecha)" .
                 " VALUES (?,?,?,?)";
 
             // Preparar sentencia
