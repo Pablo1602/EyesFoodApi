@@ -47,12 +47,7 @@ class diary
         }
         //Hacer switch case para encontrar la URL tipo comments/respuesta/{id}
         // o URL tipo comments/{contexto}/{id}
-        else if isset($urlSegments[1]){
-            if($urlSegments[0].equals('editar')){
-                return self::editDiary2($urlSegments[1]);
-            }
-        }
-        else if (isset($urlSegments[1])) {
+        else if (isset($urlSegments[0])) {
             switch ($urlSegments[0]) {
                 case 'entrada':
                      return self::newEntry($urlSegments[1]);
@@ -88,68 +83,6 @@ class diary
     public static function delete($urlSegments)
     {
 
-    }
-
-    private static function editDiary2($decodedParameters, $idDiario){
-    // Obtener parámetros de la petición
-    $parameters = file_get_contents('php://input');
-    $decodedParameters = json_decode($parameters, true);
-
-    // Controlar posible error de parsing JSON
-    if (json_last_error() != JSON_ERROR_NONE) {
-        $internalServerError = new ApiException(
-            500,
-            0,
-            "222Error interno en el servidor. Contacte al administrador",
-            "http://localhost",
-            "Error de parsing JSON. Causa: " . json_last_error_msg());
-        throw $internalServerError;
-    }
-    $titulo = $decodedParameters["titulo"];
-    try {
-        $pdo = MysqlManager::get()->getDb();
-
-        // Verificar integridad de datos
-        // TODO: Implementar restricciones de datos adicionales
-        // Componer sentencia UPDATE
-        $sentence = "UPDATE diarios "
-                . "SET titulo = ? "
-                . "WHERE idDiario = ?";
-
-        // Preparar sentencia
-        $preparedStatement = $pdo->prepare($sentence);
-        $preparedStatement->bindParam(1, $comentario);
-        $preparedStatement->bindParam(2, $idDiario, PDO::PARAM_INT);
-
-        // Ejecutar sentencia
-        if ($preparedStatement->execute()) {
-
-            $rowCount = $preparedStatement->rowCount();
-            $dbResult = self::findDiary($idDiario);
-
-        // Procesar resultado de la consulta
-        // El de la derecha es la columna de la base de datos, case sensitive
-        if ($dbResult != NULL) {
-            return $dbResult;
-        } else {
-            throw new ApiException(
-                400,
-                0,
-                "222Número de identificación o contraseña inválidos",
-                "http://localhost",
-                "Puede que no exista un usuario creado con el correo \"$userId\" o que la contraseña \"$password\" sea incorrecta."
-            );
-        }
-            }
-
-        } catch (PDOException $e) {
-            throw new ApiException(
-                500,
-                0,
-                "222Error de base de datos en el servidor",
-                "http://localhost",
-                "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
-        }
     }
 
     private static function retrievediary($idUsuario)
@@ -489,7 +422,7 @@ class diary
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
-            $preparedSentence->bindParam(1, $idDiario, PDO::PARAM_INT);
+            $preparedSentence->bindParam(1, $idDiario);
 
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
@@ -648,7 +581,7 @@ class diary
             if ($preparedStatement->execute()) {
 
                 $rowCount = $preparedStatement->rowCount();
-                $dbResult = self::findEntry($idEntry);
+                $dbResult = self::findEntryd($idEntry);
 
             // Procesar resultado de la consulta
             // El de la derecha es la columna de la base de datos, case sensitive
