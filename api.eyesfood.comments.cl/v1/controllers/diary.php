@@ -541,7 +541,7 @@ class diary
                     0,
                     "Error de base de datos en el servidor",
                     "http://localhost",
-                    "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+                    "Ocurrió el siguiente error al intentar editar el diario: " . $e->getMessage());
             }
     }
         public static function editEntry($idEntry){
