@@ -285,7 +285,7 @@ class diary
                 0,
                 "Error de base de datos en el servidor",
                 "http://localhost",
-                "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+                "Ocurrió el siguiente error al intentar insertar el diario: " . $e->getMessage());
         }
     }
 
@@ -317,7 +317,7 @@ class diary
                 0,
                 "Error de base de datos en el servidor",
                 "http://localhost",
-                "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+                "Ocurrió el siguiente error al intentar insertar la entrada: " . $e->getMessage());
         }
     }
 
@@ -362,7 +362,7 @@ class diary
                     0,
                     "Error de base de datos en el servidor",
                     "http://localhost",
-                    "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+                    "Ocurrió el siguiente error al intentar borrar el diario: " . $e->getMessage());
             }
     }
 
@@ -407,7 +407,7 @@ class diary
                     0,
                     "Error de base de datos en el servidor",
                     "http://localhost",
-                    "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+                    "Ocurrió el siguiente error al intentar borrar la entrada: " . $e->getMessage());
             }
     }
 
@@ -604,7 +604,7 @@ class diary
                     0,
                     "Error de base de datos en el servidor",
                     "http://localhost",
-                    "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
+                    "Ocurrió el siguiente error al intentar editar la entrada: " . $e->getMessage());
             }
     }
 }
