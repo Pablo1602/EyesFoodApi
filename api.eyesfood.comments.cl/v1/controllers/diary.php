@@ -483,7 +483,7 @@ class diary
         }
     }
 
-    public static function editDiary($decodedParameters, $idDiario){
+    public static function editDiary($idDiario){
         // Obtener parámetros de la petición
         $parameters = file_get_contents('php://input');
         $decodedParameters = json_decode($parameters, true);
@@ -544,7 +544,7 @@ class diary
                     "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
             }
     }
-        public static function editEntry($decodedParameters, $idEntry){
+        public static function editEntry($idEntry){
         // Obtener parámetros de la petición
         $parameters = file_get_contents('php://input');
         $decodedParameters = json_decode($parameters, true);
