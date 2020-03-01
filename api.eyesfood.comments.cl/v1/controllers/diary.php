@@ -581,7 +581,7 @@ class diary
             if ($preparedStatement->execute()) {
 
                 $rowCount = $preparedStatement->rowCount();
-                $dbResult = self::findEntryd($idEntry);
+                $dbResult = self::findEntry($idEntry);
 
             // Procesar resultado de la consulta
             // El de la derecha es la columna de la base de datos, case sensitive
