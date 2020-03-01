@@ -373,7 +373,7 @@ class diary
             // Componer sentencia UPDATE
             $sentence = "UPDATE entradas "
                     . "SET borrar = 1 "
-                    . "WHERE idEntry = ?";
+                    . "WHERE idEntrada = ?";
 
             // Preparar sentencia
             $preparedStatement = $pdo->prepare($sentence);
@@ -454,7 +454,7 @@ class diary
             // Componer sentencia SELECT
             $sentence = "SELECT *"
                         . " FROM entradas"
-                        . " WHERE idEntry = ?";
+                        . " WHERE idEntrada = ?";
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
@@ -567,9 +567,9 @@ class diary
             // Verificar integridad de datos
             // TODO: Implementar restricciones de datos adicionales
             // Componer sentencia UPDATE
-            $sentence = "UPDATE diarios "
-                    . "SET titulo = ?, texto = ?, fecha = ? "
-                    . "WHERE idDiario = ?";
+            $sentence = "UPDATE entradas "
+                    . "SET titulo = ?, texto = ?"
+                    . "WHERE idEntrada = ?";
 
             // Preparar sentencia
             $preparedStatement = $pdo->prepare($sentence);
