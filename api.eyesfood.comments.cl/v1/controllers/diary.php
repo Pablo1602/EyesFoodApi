@@ -27,7 +27,7 @@ class diary
                     }
                     break;
                 default:
-                    return self::retrievediary($urlSegments[0]);
+                    return self::retrieveDiary($urlSegments[0]);
                     break;
             }
         }
@@ -85,7 +85,7 @@ class diary
 
     }
 
-    private static function retrievediary($idUsuario)
+    private static function retrieveDiary($idUsuario)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -292,21 +292,23 @@ class diary
     private static function insertNewEntry($decodedParameters, $idDiario) {
         $titulo = $decodedParameters["titulo"];
         $texto = $decodedParameters["texto"];
+        $alimento = $decodedParameters["alimento"];
         $fecha = $decodedParameters["fecha"];
 
         try {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO entradas (idDiario, titulo, texto, fecha)" .
-                " VALUES (?,?,?,?)";
+            $sentence = "INSERT INTO entradas (idDiario, titulo, texto, alimento, fecha)" .
+                " VALUES (?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idDiario);
             $preparedStament->bindParam(2, $titulo);
             $preparedStament->bindParam(3, $texto);
-            $preparedStament->bindParam(4, $fecha);
+            $preparedStament->bindParam(4, $alimento);
+            $preparedStament->bindParam(5, $fecha);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
@@ -561,6 +563,7 @@ class diary
         }
         $titulo = $decodedParameters["titulo"];
         $texto = $decodedParameters["texto"];
+        $alimento = $decodedParameters["alimento"];
         try {
             $pdo = MysqlManager::get()->getDb();
 
@@ -568,14 +571,15 @@ class diary
             // TODO: Implementar restricciones de datos adicionales
             // Componer sentencia UPDATE
             $sentence = "UPDATE entradas "
-                    . "SET titulo = ?, texto = ?"
+                    . "SET titulo = ?, texto = ?, alimento = ?"
                     . "WHERE idEntrada = ?";
 
             // Preparar sentencia
             $preparedStatement = $pdo->prepare($sentence);
             $preparedStatement->bindParam(1, $titulo);
             $preparedStatement->bindParam(2, $texto);
-            $preparedStatement->bindParam(3, $idEntry);
+            $preparedStatement->bindParam(3, $alimento);
+            $preparedStatement->bindParam(4, $idEntry);
 
             // Ejecutar sentencia
             if ($preparedStatement->execute()) {
