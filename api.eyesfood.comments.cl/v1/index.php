@@ -3,6 +3,7 @@
 //Añadir el controlador de cada recurso
 require 'controllers/comments.php';
 require 'controllers/diary.php';
+require 'controllers/notifications.php';
 require 'views/XmlView.php';
 require 'views/JsonView.php';
 require 'utils/ApiException.php';
@@ -39,7 +40,7 @@ if (isset($_GET['PATH_INFO'])) {
 
 // Obtener recurso
 $resource = array_shift($urlSegments);
-$apiResources = array('comments', 'diary');
+$apiResources = array('comments', 'diary', 'notifications');
 
 // Comprobar si existe el recurso
 if (!in_array($resource, $apiResources)) {
