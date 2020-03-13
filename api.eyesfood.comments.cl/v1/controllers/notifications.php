@@ -42,7 +42,7 @@ class notifications
         else if (isset($urlSegments[0])) {
             switch ($urlSegments[0]) {
                 case 'new':
-                    return self::insertNewNotification($urlSegments[1],$urlSegments[2]);
+                    return self::newNotification($urlSegments[1],$urlSegments[2]);
                     break;
                 case 'no':
                 	return self::modifyNotificationUser($urlSegments[1], $urlSegments[2]);
@@ -131,6 +131,41 @@ class notifications
         }
     }
 
+	private static function newNotification($idUsuario, $idNotificacion) {
+        // Obtener parámetros de la petición
+        $parameters = file_get_contents('php://input');
+        $decodedParameters = json_decode($parameters, true);
+
+        // Controlar posible error de parsing JSON
+        if (json_last_error() != JSON_ERROR_NONE) {
+            $internalServerError = new ApiException(
+                500,
+                0,
+                "Error interno en el servidor. Contacte al administrador",
+                "http://localhost",
+                "Error de parsing JSON. Causa: " . json_last_error_msg());
+            throw $internalServerError;
+        }
+
+        // Verificar integridad de datos
+        // TODO: Implementar restricciones de datos adicionales
+
+        // Insertar usuario
+        $dbResult = self::insertNewNotification($idUsuario, $idNotificacion);
+
+        // Procesar resultado de la inserción
+        if ($dbResult) {
+            return ["status" => 201, "message" => "Comentario registrado"];
+        } else {
+            throw new ApiException(
+                500,
+                0,
+                "Error del servidor",
+                "http://localhost",
+                "Error en la base de datos al ejecutar la inserción del usuario.");
+        }
+    }
+
     private static function insertNewNotification($idUsuario, $idNotificacion){
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -153,7 +188,7 @@ class notifications
                 0,
                 "Error de base de datos en el servidor",
                 "http://localhost",
-                "Ocurrió el siguiente error al intentar insertar el Rating: " . $e->getMessage());
+                "Ocurrió el siguiente error al intentar insertar el notificaciones: " . $e->getMessage());
         }
     }
 
