@@ -137,7 +137,7 @@ class notifications
 
             // Componer sentencia INSERT
             $sentence = "INSERT INTO usuario_notificacion (idUsuario, idNotificacion)".
-                " VALUES (?,?,?)";
+                " VALUES (?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
