@@ -133,6 +133,7 @@ class notifications
 
 	private static function newNotification($idUsuario, $idNotificacion) {
         // Obtener parámetros de la petición
+        /*
         $parameters = file_get_contents('php://input');
         $decodedParameters = json_decode($parameters, true);
 
@@ -145,7 +146,7 @@ class notifications
                 "http://localhost",
                 "Error de parsing JSON. Causa: " . json_last_error_msg());
             throw $internalServerError;
-        }
+        }*/
 
         // Verificar integridad de datos
         // TODO: Implementar restricciones de datos adicionales
