@@ -4,9 +4,9 @@
  * Mysql.
  */
 // TODO: cambiar por dominio o IP en producción
-define("MYSQL_HOST", "us-cdbr-iron-east-05.cleardb.net");
-define("MYSQL_DATABASE_NAME", "heroku_381c12ffe1e1d28");
+define("MYSQL_HOST", "us-cdbr-iron-east-01.cleard");
+define("MYSQL_DATABASE_NAME", "heroku_76d0cfc7f4b4712");
 // TODO: cambiar en producción
-define("MYSQL_USERNAME", "bf2ad6a2d8956c");
+define("MYSQL_USERNAME", "b94c2f641ae6b0");
 // TODO: cambiar en producción
-define("MYSQL_PASSWORD", "2231f746");
+define("MYSQL_PASSWORD", "b2fd6eb4");
