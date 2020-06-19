@@ -74,8 +74,7 @@ class search
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 $queryFinal = "'%" . $query . "%'";
-                $queryFinalFinal = $queryFinal . "%";
-                $sentencia->bindParam(1, $queryFinal, PDO::PARAM_INT);
+                $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
@@ -122,8 +121,8 @@ class search
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
                 //$sentencia->bindParam(':consulta', $query, PDO::PARAM_STR);
                 $queryFinal = "%" . $query . "%";
-                $sentencia->bindParam(1, $queryFinal, PDO::PARAM_INT);
-                $sentencia->bindParam(2, $queryFinal, PDO::PARAM_INT);
+                $sentencia->bindParam(1, $queryFinal);
+                $sentencia->bindParam(2, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
@@ -171,8 +170,8 @@ class search
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 $queryFinal = '%' . $query . '%';
-                $sentencia->bindParam(1, $queryFinal, PDO::PARAM_INT);
-                $sentencia->bindParam(2, $queryFinal, PDO::PARAM_INT);
+                $sentencia->bindParam(1, $queryFinal);
+                $sentencia->bindParam(2, $queryFinal);
             }
 
             // Ejecutar sentencia preparada
