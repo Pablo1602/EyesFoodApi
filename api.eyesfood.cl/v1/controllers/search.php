@@ -59,17 +59,7 @@ class search
             /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
                     . " WHERE nombre LIKE ? LIMIT 50";*/
             
-            $comando = "SELECT codigoBarras, nombre, marcas.nombreMarca, idUsuario, "
-                        . "idPeligroAlimento, peligroAlimento, productos.producto, "
-                        . "unidades_medida.unidadMedida, contenidoNeto, energia, proteinas, "
-                        . "grasaTotal, grasaSaturada, grasaTrans, colesterol, grasaMono, grasaPoli, "
-                        . "hidratosCarbono, azucaresTotales, fibra, sodio, porcion, porcionGramos, "
-                        . "fechaSubida, indiceGlicemico, fotoOficial FROM alimentos "
-                        . "LEFT JOIN marcas ON alimentos.codigoMarca = marcas.codigoMarca "
-                        . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
-                        . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
-                        . "WHERE nombre LIKE ? LIMIT 50";
-                //$comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM alimento_nuevo WHERE nombreAlimento LIKE ? LIMIT 50";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
