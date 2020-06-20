@@ -154,13 +154,13 @@ class search
             
             if($query == "leche"){
                 $comando = "SELECT * "
-                        . "FROM  alimentos"
+                        . "FROM  alimento_nuevo"
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 $sentencia = $pdo->prepare($comando);
             }
             else if($query == "gluten"){
                 $comando = "SELECT * "
-                        . "FROM  alimentos"
+                        . "FROM  alimento_nuevo"
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
                 $sentencia = $pdo->prepare($comando);
             }
