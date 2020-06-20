@@ -59,11 +59,11 @@ class search
             /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
                     . " WHERE nombre LIKE ? LIMIT 50";*/
             
-                $comando = "SELECT * FROM alimento_nuevo WHERE nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM alimento_nuevo WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = "'%" . $query . "%'";
+                $queryFinal = '%' . $query . '%';
                 $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
@@ -105,7 +105,7 @@ class search
                     . " LEFT JOIN origen_aditivo ON aditivos.idOrigenAditivo = origen_aditivo.idOrigenAditivo"
                     . " LEFT JOIN clasificacion_aditivo ON aditivos.idClasificacionAditivo = clasificacion_aditivo.idClasificacionAditivo"
                     . " WHERE aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
-//'7802820701210' así queda al hacerle bind
+                //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
