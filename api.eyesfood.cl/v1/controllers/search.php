@@ -166,7 +166,7 @@ class search
             }
             else{
                 $comando = "SELECT * "
-                        . "FROM  alimentos"
+                        . "FROM  alimento_nuevo"
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE ? AND trazas NOT LIKE ? LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
