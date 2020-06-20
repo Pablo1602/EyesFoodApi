@@ -69,7 +69,8 @@ class search
                         . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
                         . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
                         . "WHERE nombre LIKE ? LIMIT 50";*/
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+                //$comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM  alimentos WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
@@ -153,19 +154,19 @@ class search
             
             if($query == "leche"){
                 $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
+                        . "FROM  alimentos"
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 $sentencia = $pdo->prepare($comando);
             }
             else if($query == "gluten"){
                 $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
+                        . "FROM  alimentos"
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
                 $sentencia = $pdo->prepare($comando);
             }
             else{
                 $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
+                        . "FROM  alimentos"
                         . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE ? AND trazas NOT LIKE ? LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
