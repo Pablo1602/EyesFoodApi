@@ -79,7 +79,8 @@ class search
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+                //return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+                return $sentencia
             } else {
                 throw new ApiException(
                     500,
