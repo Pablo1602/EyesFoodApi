@@ -7,9 +7,6 @@ class search
 {
     public static function get($urlSegments)
     {
-
-        // TODO: 2. Verificaciones, restricciones, defensas
-        //?????????????????????????????????????????????????
         if (isset($urlSegments[4]))) {
             throw new ApiException(
                 400,
@@ -19,17 +16,14 @@ class search
                 "El recurso $_SERVER[REQUEST_URI] no esta sujeto a resultados"
             );
         }
-        //Hacer switch case para encontrar la URL tipo foods/codigodeBarra/aditivos
-        //barcode=urlSegments[0], aditivos e ingredientes=urlSegments[1]
-        
         /*else if (isset($urlSegments[3])) {
             switch ($urlSegments[0]){
                 case "noallergy":
-                    return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
+                    return self::retrieveSearchAllergy2($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
             }         
         }*/
-        else if (isset($urlSegments[1])) {
+        if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
                 case "foods":
                     return self::retrieveSearchFoods($urlSegments[1]);
@@ -37,6 +31,9 @@ class search
                 
                 case "additives": //deprecado
                     return self::retrieveSearchAdditives($urlSegments[1]);
+                    break;
+                case "noallergy":
+                    return self::retrieveSearchAllergy($urlSegments[1]);
                     break;
             }         
         }
@@ -142,7 +139,57 @@ class search
         }
     }
 
-private static function retrieveSearchAllergy($leche,$gluten,$query)
+        private static function retrieveSearchAllergy($query){
+        try {
+            $pdo = MysqlManager::get()->getDb();
+            
+            if($query == "leche"){
+                $comando = "SELECT * "
+                        . "FROM  alimento_nuevo"
+                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                $sentencia = $pdo->prepare($comando);
+            }
+            else if($query == "gluten"){
+                $comando = "SELECT * "
+                        . "FROM  alimento_nuevo"
+                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
+                $sentencia = $pdo->prepare($comando);
+            }
+            else{
+                $comando = "SELECT * "
+                        . "FROM  alimento_nuevo"
+                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE ? AND trazas NOT LIKE ? LIMIT 50";
+                // Preparar sentencia
+                $sentencia = $pdo->prepare($comando);
+                $queryFinal = '%' . $query . '%';
+                $sentencia->bindParam(1, $queryFinal);
+                $sentencia->bindParam(2, $queryFinal);
+            }
+
+            // Ejecutar sentencia preparada
+            if ($sentencia->execute()) {
+                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new ApiException(
+                    500,
+                    0,
+                    "Error de base de datos en el servidor",
+                    "http://localhost",
+                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
+                );
+            }
+
+        } catch (PDOException $e) {
+        throw new ApiException(
+            500,
+            0,
+            "Error de base de datos en el servidor",
+            "http://localhost",
+            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
+        }
+    }
+
+    private static function retrieveSearchAllergy2($leche,$gluten,$query)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
