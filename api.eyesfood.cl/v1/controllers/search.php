@@ -140,22 +140,18 @@ class search
     {
         try {
             $pdo = MysqlManager::get()->getDb();
-        
+            $Limit = "LIMIT 50";
+            $LecheFiltro = "AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' AND alergenos NOT LIKE '%milk%' AND trazas NOT LIKE '%milk%' AND alergenos NOT LIKE '%lactosa%' AND trazas NOT LIKE '%lactosa%'";
+            $glutenFiltro = "AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%'";
             if($leche == "1" and $gluten == "1"){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                $comando = "SELECT * FROM  alimentos WHERE nombreAlimento LIKE ? ".$LecheFiltro." ".$glutenFiltro."".$Limit;
                 // Preparar sentencia
             }
             else if($leche == "1"){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                $comando = "SELECT * FROM  alimentos WHERE nombreAlimento LIKE ? ".$LecheFiltro." ".$Limit;
             }
             else if($gluten == "1"){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
+                $comando = "SELECT * FROM  alimentos WHERE nombreAlimento LIKE ? ".$glutenFiltro."".$Limit;
             }else{
                 $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
 
