@@ -69,13 +69,11 @@ class search
                         . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
                         . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
                         . "WHERE nombre LIKE ? LIMIT 50";*/
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM 'alimentos' WHERE 'nombreAlimento' LIKE :keyword LIMIT 50;";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = '%' . $query . '%';
-                $sentencia->bindParam(1, $queryFinal);
-
+                $sentencia->bindValue(':keyword','%'.$query.'%');
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
                 return $sentencia->fetchAll(PDO::FETCH_ASSOC);
