@@ -115,7 +115,7 @@ class search
                     . " LEFT JOIN origen_aditivo ON aditivos.idOrigenAditivo = origen_aditivo.idOrigenAditivo"
                     . " LEFT JOIN clasificacion_aditivo ON aditivos.idClasificacionAditivo = clasificacion_aditivo.idClasificacionAditivo"
                     . " WHERE aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
-//'7802820701210' así queda al hacerle bind
+                //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
@@ -147,7 +147,7 @@ class search
             "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
         }
     }
-} 
+
 
     private static function retrieveSearchAllergy($leche,$gluten,$query){
         try {
