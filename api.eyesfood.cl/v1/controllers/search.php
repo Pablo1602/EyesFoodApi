@@ -140,26 +140,27 @@ class search
     {
         try {
             $pdo = MysqlManager::get()->getDb();
-            
-            if($leche == '1' and $gluten == '1'){
+        
+            if($leche == "1" and $gluten == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
                         . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 // Preparar sentencia
-                $sentencia = $pdo->prepare($comando);
             }
-            else if($leche == '1'){
+            else if($leche == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
                         . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
             }
-            else if($gluten == '1'){
+            else if($gluten == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
                         . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
+            }else{
+                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+
             }
+            $sentencia = $pdo->prepare($comando);
             $queryFinal = '%' . $query . '%';
             $sentencia->bindParam(1, $queryFinal);
 
