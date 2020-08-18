@@ -59,7 +59,7 @@ class search
             /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
                     . " WHERE nombre LIKE ? LIMIT 50";*/
             
-                $comando = "SELECT * FROM alimento_nuevo WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
