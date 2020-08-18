@@ -189,7 +189,7 @@ class search
         }
     }
 
-    private static function retrieveSearchAllergy2($leche,$gluten,$query)
+    /*private static function retrieveSearchAllergy2($leche,$gluten,$query)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -237,5 +237,5 @@ class search
             "http://localhost",
             "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
         }
-    }
+    }*/
 }
