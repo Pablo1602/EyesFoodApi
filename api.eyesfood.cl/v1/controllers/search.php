@@ -10,7 +10,7 @@ class search
 
         // TODO: 2. Verificaciones, restricciones, defensas
         //?????????????????????????????????????????????????
-        if (isset($urlSegments[3])) {
+        if (isset($urlSegments[2])) {
             throw new ApiException(
                 400,
                 0,
@@ -29,7 +29,7 @@ class search
                     break;
             }         
         }*/
-        if (isset($urlSegments[2])) {
+        if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
                 case "foods":
                     return self::retrieveSearchFoods($urlSegments[1]);
