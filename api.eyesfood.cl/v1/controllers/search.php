@@ -74,7 +74,7 @@ class search
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 $queryFinal = "'%" . $query . "%'";
-                $sentencia->bindParam(1, $queryFinal, PDO::PARAM_STR);
+                $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
