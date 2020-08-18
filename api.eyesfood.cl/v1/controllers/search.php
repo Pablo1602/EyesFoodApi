@@ -141,7 +141,7 @@ class search
         try {
             $pdo = MysqlManager::get()->getDb();
             $Limit = "LIMIT 50";
-            $LecheFiltro = "AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' AND alergenos AND alergenos NOT LIKE '%lactosa%' AND trazas NOT LIKE '%lactosa%'";
+            $LecheFiltro = "AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' AND alergenos NOT LIKE '%lactosa%' AND trazas NOT LIKE '%lactosa%'";
             $glutenFiltro = "AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%'";
             if($leche == "1" and $gluten == "1"){
                 $comando = "SELECT * FROM  alimentos WHERE nombreAlimento LIKE ? ".$LecheFiltro." ".$glutenFiltro."".$Limit;
