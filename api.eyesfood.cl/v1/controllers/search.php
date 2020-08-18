@@ -21,34 +21,16 @@ class search
         }
         //Hacer switch case para encontrar la URL tipo foods/codigodeBarra/aditivos
         //barcode=urlSegments[0], aditivos e ingredientes=urlSegments[1]
-        if (isset($urlSegments[4])) {
+        if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
                 case "foods":
                     return self::retrieveSearchFoods($urlSegments[1]);
-                    break;
-                case "foods1":
-                    return self::retrieveSearchFoods1($urlSegments[1]);
-                    break;
-                case "foods2":
-                    return self::retrieveSearchFoods2($urlSegments[1]);
-                    break;
-                case "foods3":
-                    return self::retrieveSearchFoods3($urlSegments[1]);
-                    break;
-                case "foods4":
-                    return self::retrieveSearchFoods4($urlSegments[1]);
-                    break;
-                case "foods5":
-                    return self::retrieveSearchFoods5($urlSegments[1]);
                     break;
                 case "additives":
                     return self::retrieveSearchAdditives($urlSegments[1]);
                     break;
                 case "noallergy":
-                    return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
-                    break;
-                case "noallergy2":
-                    return self::retrieveSearchAllergy2($urlSegments[1]);
+                    return self::retrieveSearchAllergy($urlSegments[1]);
                     break;
             }         
         }
@@ -69,209 +51,24 @@ class search
 
     }
     
-    private static function retrieveSearchFoods1($query)
+    private static function retrieveSearchFoods($query)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
 
-
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50;";
+            /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
+                    . " WHERE nombre LIKE ? LIMIT 50";*/
+            
+                $comando = "SELECT * FROM alimento_nuevo WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
+                //'7802820701210' así queda al hacerle bind
+                // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = "%" . $query . "%";
+                $queryFinal = '%' . $query . '%';
                 $sentencia->bindParam(1, $queryFinal);
+
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
                 return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-    private static function retrieveSearchFoods2($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50;";
-                $sentencia = $pdo->prepare($comando);
-                $queryFinal = "'%" . $query . "%'";
-                $sentencia->bindParam(1, $queryFinalFinal);
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-    private static function retrieveSearchFoods3($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE :query LIMIT 50;";
-                $sentencia = $pdo->prepare($comando);
-                $sentencia->bindValue(':query','%'.$query.'%'); 
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-    private static function retrieveSearchFoods4($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE :query LIMIT 50;";
-                $sentencia = $pdo->prepare($comando);
-                $sentencia->bindValue(':query',"'%".$query."%'"); 
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-    private static function retrieveSearchFoods5($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE %leche% LIMIT 50;";
-                $sentencia = $pdo->prepare($comando);
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-    private static function retrieveSearchFoods6($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-            $sentencia = $pdo->prepare('SELECT * FROM alimentos WHERE nombreAlimento LIKE :keywords LIMIT 50');
-            $sentencia->bindValue(':keywords','%'.$query.'%'); 
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-        private static function retrieveSearchFoods6($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-            $sentencia = $pdo->prepare('SELECT * FROM alimentos WHERE nombreAlimento LIKE :keywords LIMIT 50');
-            $sentencia->bindValue(':keywords','%'.$query.'%'); 
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                while ($r=$sentencia->fetch(PDO::FETCH_ASSOC)) {
-                     echo"<pre>".print_r($r,true)."</pre>";
-                }
             } else {
                 throw new ApiException(
                     500,
@@ -292,54 +89,6 @@ class search
         }
     }
     
-    private static function retrieveSearchFoods($query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-
-            /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
-                    . " WHERE nombre LIKE ? LIMIT 50";*/
-            
-            /*$comando = "SELECT codigoBarras, nombre, marcas.nombreMarca, idUsuario, "
-                        . "idPeligroAlimento, peligroAlimento, productos.producto, "
-                        . "unidades_medida.unidadMedida, contenidoNeto, energia, proteinas, "
-                        . "grasaTotal, grasaSaturada, grasaTrans, colesterol, grasaMono, grasaPoli, "
-                        . "hidratosCarbono, azucaresTotales, fibra, sodio, porcion, porcionGramos, "
-                        . "fechaSubida, indiceGlicemico, fotoOficial FROM alimentos "
-                        . "LEFT JOIN marcas ON alimentos.codigoMarca = marcas.codigoMarca "
-                        . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
-                        . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
-                        . "WHERE nombre LIKE ? LIMIT 50";*/
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50;";
-                //'7802820701210' así queda al hacerle bind
-                // Preparar sentencia
-                $sentencia = $pdo->prepare($comando);
-                $queryFinal = "%" . $query . "%";
-                $queryFinalFinal = $queryFinal . "%";
-                $sentencia->bindParam(1, $queryFinalFinal);
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
     private static function retrieveSearchAdditives($query)
     {
         try {
@@ -347,7 +96,7 @@ class search
 
             $comando = "SELECT codigoE AS codigo, aditivo AS nombre FROM aditivos"
                     . " WHERE codigoE LIKE ? OR aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
-
+            
             $comando = "SELECT codigoE, aditivo, peligro_aditivo.gradoPeligro, origen_aditivo.origen, "
                     . "clasificacion_aditivo.clasificacion, descripcionAditivo, usoAditivo, "
                     . "efectosSecundariosAditivo "
@@ -361,7 +110,7 @@ class search
                 $sentencia = $pdo->prepare($comando);
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
                 //$sentencia->bindParam(':consulta', $query, PDO::PARAM_STR);
-                $queryFinal = '%' . $query . '%';
+                $queryFinal = "%" . $query . "%";
                 $sentencia->bindParam(1, $queryFinal);
                 $sentencia->bindParam(2, $queryFinal);
 
@@ -388,59 +137,7 @@ class search
         }
     }
 
-
-    private static function retrieveSearchAllergy($leche,$gluten,$query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-            
-            if($leche == 1 and $gluten == 1){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                // Preparar sentencia
-                $sentencia = $pdo->prepare($comando);
-            }
-            else if($leche == 1){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            else if($gluten == 1){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            $queryFinal = '%' . $query . '%';
-            $sentencia->bindParam(1, $queryFinal, PDO::PARAM_STR);
-
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }
-
-    private static function retrieveSearchAllergy2($query)
-    {
+    private static function retrieveSearchAllergy($query){
         try {
             $pdo = MysqlManager::get()->getDb();
             
