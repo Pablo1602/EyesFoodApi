@@ -7,7 +7,7 @@ class search
 {
     public static function get($urlSegments)
     {
-        if (isset($urlSegments[3]))) {
+        if (isset($urlSegments[4])) {
             throw new ApiException(
                 400,
                 0,
@@ -15,6 +15,13 @@ class search
                 "http://localhost",
                 "El recurso $_SERVER[REQUEST_URI] no esta sujeto a resultados"
             );
+        }
+        else if (isset($urlSegments[3])) {
+            switch ($urlSegments[0]){
+                case "noallergy":
+                    return self::retrieveSearchAllergy2($urlSegments[1],$urlSegments[2],$urlSegments[3]);
+                    break;
+            }         
         }
         if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
@@ -24,9 +31,6 @@ class search
                 
                 case "additives": //deprecado
                     return self::retrieveSearchAdditives($urlSegments[1]);
-                    break;
-                case "noallergy":
-                    return self::retrieveSearchAllergy($urlSegments[1]);
                     break;
             }         
         }
@@ -132,32 +136,32 @@ class search
         }
     }
 
-    private static function retrieveSearchAllergy($query){
+    private static function retrieveSearchAllergy($leche,$gluten,$query)
+    {
         try {
             $pdo = MysqlManager::get()->getDb();
             
-            if($query == "leche"){
+            if($leche == 1 and $gluten == 1){
                 $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
-                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            else if($query == "gluten"){
-                $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
-                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            else{
-                $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
-                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE ? AND trazas NOT LIKE ? LIMIT 50";
+                        . "FROM  alimentos"
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = '%' . $query . '%';
-                $sentencia->bindParam(1, $queryFinal);
-                $sentencia->bindParam(2, $queryFinal);
             }
+            else if($leche == 1){
+                $comando = "SELECT * "
+                        . "FROM  alimentos"
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                $sentencia = $pdo->prepare($comando);
+            }
+            else if($gluten == 1){
+                $comando = "SELECT * "
+                        . "FROM  alimentos"
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
+                $sentencia = $pdo->prepare($comando);
+            }
+            $queryFinal = '%' . $query . '%';
+            $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
