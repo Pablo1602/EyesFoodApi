@@ -7,7 +7,7 @@ class search
 {
     public static function get($urlSegments)
     {
-        if (isset($urlSegments[4]))) {
+        if (isset($urlSegments[3]))) {
             throw new ApiException(
                 400,
                 0,
@@ -16,13 +16,6 @@ class search
                 "El recurso $_SERVER[REQUEST_URI] no esta sujeto a resultados"
             );
         }
-        /*else if (isset($urlSegments[3])) {
-            switch ($urlSegments[0]){
-                case "noallergy":
-                    return self::retrieveSearchAllergy2($urlSegments[1],$urlSegments[2],$urlSegments[3]);
-                    break;
-            }         
-        }*/
         if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
                 case "foods":
@@ -139,7 +132,7 @@ class search
         }
     }
 
-        private static function retrieveSearchAllergy($query){
+    private static function retrieveSearchAllergy($query){
         try {
             $pdo = MysqlManager::get()->getDb();
             
@@ -188,54 +181,4 @@ class search
             "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
         }
     }
-
-    /*private static function retrieveSearchAllergy2($leche,$gluten,$query)
-    {
-        try {
-            $pdo = MysqlManager::get()->getDb();
-            
-            if($leche == 1 and $gluten == 1){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                // Preparar sentencia
-                $sentencia = $pdo->prepare($comando);
-            }
-            else if($leche == 1){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            else if($gluten == 1){
-                $comando = "SELECT * "
-                        . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            $queryFinal = '%' . $query . '%';
-            $sentencia->bindParam(1, $queryFinal);
-
-            // Ejecutar sentencia preparada
-            if ($sentencia->execute()) {
-                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                throw new ApiException(
-                    500,
-                    0,
-                    "Error de base de datos en el servidor",
-                    "http://localhost",
-                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
-                );
-            }
-
-        } catch (PDOException $e) {
-        throw new ApiException(
-            500,
-            0,
-            "Error de base de datos en el servidor",
-            "http://localhost",
-            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
-        }
-    }*/
 }
