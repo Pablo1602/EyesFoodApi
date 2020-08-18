@@ -73,12 +73,12 @@ class search
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = "'%" . $query . "%'";
+                $queryFinal = "%" . $query . "%";
                 $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
-                return $comando;
+                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
             } else {
                 throw new ApiException(
                     500,
