@@ -47,8 +47,8 @@ class search
                 case "noallergy":
                     return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
-                case "noallerg2":
-                    return self::retrieveSearchAllergy($urlSegments[1]);
+                case "noallergy2":
+                    return self::retrieveSearchAllergy2($urlSegments[1]);
                     break;
             }         
         }
