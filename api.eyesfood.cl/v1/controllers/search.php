@@ -22,13 +22,13 @@ class search
         //Hacer switch case para encontrar la URL tipo foods/codigodeBarra/aditivos
         //barcode=urlSegments[0], aditivos e ingredientes=urlSegments[1]
         
-        else if (isset($urlSegments[3])) {
+        /*else if (isset($urlSegments[3])) {
             switch ($urlSegments[0]){
                 case "noallergy":
                     return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
             }         
-        }
+        }*/
         else if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
                 case "foods":
