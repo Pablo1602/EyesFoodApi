@@ -19,7 +19,7 @@ class search
         else if (isset($urlSegments[3])) {
             switch ($urlSegments[0]){
                 case "noallergy":
-                    return self::retrieveSearchAllergy2($urlSegments[1],$urlSegments[2],$urlSegments[3]);
+                    return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
             }         
         }
@@ -136,7 +136,7 @@ class search
         }
     }
 
-    private static function retrieveSearchAllergy2($leche,$gluten,$query)
+    private static function retrieveSearchAllergy($leche,$gluten,$query)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -144,7 +144,7 @@ class search
             if($leche == "1" and $gluten == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
-                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 // Preparar sentencia
             }
             else if($leche == "1"){
