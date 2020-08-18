@@ -106,7 +106,7 @@ class allergy
 
         // Procesar resultado de la inserción
         if ($dbResult) {
-            return ["status" => 201, "message" => "Alimento registrado"];
+            return ["status" => 201, "message" => "Alergia Actualizada"];
         } else {
             throw new ApiException(
                 500,

@@ -21,7 +21,7 @@ class search
         }
         //Hacer switch case para encontrar la URL tipo foods/codigodeBarra/aditivos
         //barcode=urlSegments[0], aditivos e ingredientes=urlSegments[1]
-        if (isset($urlSegments[1])) {
+        if (isset($urlSegments[4])) {
             switch ($urlSegments[0]){
                 case "foods":
                     return self::retrieveSearchFoods($urlSegments[1]);
@@ -30,7 +30,7 @@ class search
                     return self::retrieveSearchAdditives($urlSegments[1]);
                     break;
                 case "noallergy":
-                    return self::retrieveSearchAllergy($urlSegments[1]);
+                    return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
             }         
         }
@@ -59,11 +59,21 @@ class search
             /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
                     . " WHERE nombre LIKE ? LIMIT 50";*/
             
-                $comando = "SELECT * FROM alimento_nuevo WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
+            /*$comando = "SELECT codigoBarras, nombre, marcas.nombreMarca, idUsuario, "
+                        . "idPeligroAlimento, peligroAlimento, productos.producto, "
+                        . "unidades_medida.unidadMedida, contenidoNeto, energia, proteinas, "
+                        . "grasaTotal, grasaSaturada, grasaTrans, colesterol, grasaMono, grasaPoli, "
+                        . "hidratosCarbono, azucaresTotales, fibra, sodio, porcion, porcionGramos, "
+                        . "fechaSubida, indiceGlicemico, fotoOficial FROM alimentos "
+                        . "LEFT JOIN marcas ON alimentos.codigoMarca = marcas.codigoMarca "
+                        . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
+                        . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
+                        . "WHERE nombre LIKE ? LIMIT 50";*/
+                $comando = "SELECT * FROM alimentos WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = '%' . $query . '%';
+                $queryFinal = "'%" . $query . "%'";
                 $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
@@ -105,7 +115,7 @@ class search
                     . " LEFT JOIN origen_aditivo ON aditivos.idOrigenAditivo = origen_aditivo.idOrigenAditivo"
                     . " LEFT JOIN clasificacion_aditivo ON aditivos.idClasificacionAditivo = clasificacion_aditivo.idClasificacionAditivo"
                     . " WHERE aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
-                //'7802820701210' así queda al hacerle bind
+//'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
@@ -137,32 +147,31 @@ class search
         }
     }
 
-    private static function retrieveSearchAllergy($query){
+    private static function retrieveSearchAllergy($leche,$gluten,$query){
         try {
             $pdo = MysqlManager::get()->getDb();
             
-            if($query == "leche"){
+            if($leche == "1" and $gluten == "1"){
                 $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
-                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            else if($query == "gluten"){
-                $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
-                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
-                $sentencia = $pdo->prepare($comando);
-            }
-            else{
-                $comando = "SELECT * "
-                        . "FROM  alimento_nuevo"
-                        . " WHERE estadoAlimento = 1 AND alergenos NOT LIKE ? AND trazas NOT LIKE ? LIMIT 50";
+                        . "FROM  alimentos"
+                        . " WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = '%' . $query . '%';
-                $sentencia->bindParam(1, $queryFinal);
-                $sentencia->bindParam(2, $queryFinal);
             }
+            else if($leche == "1"){
+                $comando = "SELECT * "
+                        . "FROM  alimentos"
+                        . " WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                $sentencia = $pdo->prepare($comando);
+            }
+            else if($gluten == "1"){
+                $comando = "SELECT * "
+                        . "FROM  alimentos"
+                        . " WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
+                $sentencia = $pdo->prepare($comando);
+            }
+            $queryFinal = '%' . $query . '%';
+            $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {

@@ -137,7 +137,7 @@ class ratings
         }
     }
 
-    private static function insertNewRating($decodedParameters) {
+        private static function insertNewRating($decodedParameters) {
         //Extraer datos del rating
         $idUsuario = $decodedParameters["idUsuario"];
         $idExperto = $decodedParameters["idExperto"];
@@ -171,8 +171,8 @@ class ratings
                 "Ocurrió el siguiente error al intentar insertar el Rating: " . $e->getMessage());
         }
     }
-    
-    private static function modifyRating($idExperto, $userId, $reputacion){
+private static function modifyRating($idExperto, $userId, $reputacion)
+{
     try {
         $pdo = MysqlManager::get()->getDb();
 
@@ -218,7 +218,7 @@ class ratings
                 "Ocurrió el siguiente error al intentar insertar el usuario: " . $e->getMessage());
         }
     }
-    private static function findRating($idExperto, $userId) {
+private static function findRating($idExperto, $userId) {
         
         try {
             $pdo = MysqlManager::get()->getDb();

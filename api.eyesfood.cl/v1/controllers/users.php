@@ -291,7 +291,7 @@ class users {
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
-            $preparedSentence->bindParam(1, $userId, PDO::PARAM_STR, 128);
+            $preparedSentence->bindParam(1, $userId);
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
                 $userData = $preparedSentence->fetch(PDO::FETCH_ASSOC);
@@ -365,7 +365,8 @@ class users {
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
-            $preparedSentence->bindParam(1, $correo, PDO::PARAM_STR, 128);
+            $preparedSentence->bindParam(1, $correo);
+
             // Ejecutar sentencia
             if ($preparedSentence->execute()) {
                 return $preparedSentence->fetch(PDO::FETCH_ASSOC);
