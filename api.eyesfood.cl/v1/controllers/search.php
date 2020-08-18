@@ -69,7 +69,7 @@ class search
                         . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
                         . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
                         . "WHERE nombre LIKE ? LIMIT 50";*/
-                $comando = "SELECT * FROM alimentos WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
@@ -99,30 +99,32 @@ class search
         }
     }
     
-    private static function retrieveSearchAdditives($query)
+    private static function retrieveSearchFoods($query)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
 
-            $comando = "SELECT codigoE AS codigo, aditivo AS nombre FROM aditivos"
-                    . " WHERE codigoE LIKE ? OR aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
-            
-            $comando = "SELECT codigoE, aditivo, peligro_aditivo.gradoPeligro, origen_aditivo.origen, "
-                    . "clasificacion_aditivo.clasificacion, descripcionAditivo, usoAditivo, "
-                    . "efectosSecundariosAditivo "
-                    . "FROM aditivos LEFT JOIN peligro_aditivo "
-                    . "ON aditivos.idPeligroAditivo = peligro_aditivo.idPeligroAditivo"
-                    . " LEFT JOIN origen_aditivo ON aditivos.idOrigenAditivo = origen_aditivo.idOrigenAditivo"
-                    . " LEFT JOIN clasificacion_aditivo ON aditivos.idClasificacionAditivo = clasificacion_aditivo.idClasificacionAditivo"
-                    . " WHERE aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
+            /*$comando = "SELECT codigoBarras AS codigo, nombre FROM alimentos"
+                    . " WHERE nombre LIKE ? LIMIT 50";*/
+
+            $comando = "SELECT codigoBarras, nombre, marcas.nombreMarca, idUsuario, "
+                        . "idPeligroAlimento, peligroAlimento, productos.producto, "
+                        . "unidades_medida.unidadMedida, contenidoNeto, energia, proteinas, "
+                        . "grasaTotal, grasaSaturada, grasaTrans, colesterol, grasaMono, grasaPoli, "
+                        . "hidratosCarbono, azucaresTotales, fibra, sodio, porcion, porcionGramos, "
+                        . "fechaSubida, indiceGlicemico, fotoOficial FROM alimentos "
+                        . "LEFT JOIN marcas ON alimentos.codigoMarca = marcas.codigoMarca "
+                        . "LEFT JOIN productos ON alimentos.idProducto = productos.idProducto "
+                        . "LEFT JOIN unidades_medida ON alimentos.idUnidadMedida = unidades_medida.idUnidadMedida "
+                        . "WHERE nombre LIKE ? LIMIT 50";
 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
                 //$sentencia->bindParam(':consulta', $query, PDO::PARAM_STR);
                 $queryFinal = "%" . $query . "%";
-                $sentencia->bindParam(1, $queryFinal);
-                $sentencia->bindParam(2, $queryFinal);
+                $queryFinalFinal = $queryFinal . "%";
+                $sentencia->bindParam(1, $queryFinal, PDO::PARAM_INT);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
@@ -154,20 +156,20 @@ class search
             if($leche == "1" and $gluten == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
-                        . " WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
             }
             else if($leche == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
-                        . " WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 $sentencia = $pdo->prepare($comando);
             }
             else if($gluten == "1"){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
-                        . " WHERE estadoAlimento = 1 AND nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
+                        . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten%' LIMIT 50";
                 $sentencia = $pdo->prepare($comando);
             }
             $queryFinal = '%' . $query . '%';
