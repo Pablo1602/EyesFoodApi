@@ -21,7 +21,15 @@ class search
         }
         //Hacer switch case para encontrar la URL tipo foods/codigodeBarra/aditivos
         //barcode=urlSegments[0], aditivos e ingredientes=urlSegments[1]
+        
         if (isset($urlSegments[4])) {
+            switch ($urlSegments[0]){
+                case "noallergy":
+                    return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
+                    break;
+            }         
+        }
+        if (isset($urlSegments[2])) {
             switch ($urlSegments[0]){
                 case "foods":
                     return self::retrieveSearchFoods($urlSegments[1]);
@@ -29,10 +37,6 @@ class search
                 
                 case "additives": //deprecado
                     return self::retrieveSearchAdditives($urlSegments[1]);
-                    break;
-
-                case "noallergy":
-                    return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
             }         
         }
@@ -143,13 +147,13 @@ private static function retrieveSearchAllergy($leche,$gluten,$query)
         try {
             $pdo = MysqlManager::get()->getDb();
             
-            if($leche == 1 and $gluten == 1){
+            /*if($leche == 1 and $gluten == 1){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
                         . " WHERE nombreAlimento LIKE ? AND alergenos NOT LIKE '%gluten%' AND trazas NOT LIKE '%gluten% AND alergenos NOT LIKE '%leche%' AND trazas NOT LIKE '%leche%' LIMIT 50";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-            }
+            }*/
             else if($leche == 1){
                 $comando = "SELECT * "
                         . "FROM  alimentos"
