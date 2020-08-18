@@ -73,7 +73,7 @@ class search
                 //'7802820701210' así queda al hacerle bind
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
-                $queryFinal = "%" . $query . "%";
+                $queryFinal = '%' . $query . '%';
                 $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
@@ -104,7 +104,7 @@ class search
         try {
             $pdo = MysqlManager::get()->getDb();
 
-            $comando = "SELECT codigoE AS codigo, aditivo AS nombre FROM aditivos"
+            /*$comando = "SELECT codigoE AS codigo, aditivo AS nombre FROM aditivos"
                     . " WHERE codigoE LIKE ? OR aditivo LIKE ? OR codigoEBuscador LIKE ? LIMIT 50";
 
             $comando = "SELECT codigoE, aditivo, peligro_aditivo.gradoPeligro, origen_aditivo.origen, "
@@ -120,10 +120,15 @@ class search
                 $sentencia = $pdo->prepare($comando);
                 //$sentencia = ConexionBD::obtenerInstancia()->obtenerBD()->prepare($comando);
                 //$sentencia->bindParam(':consulta', $query, PDO::PARAM_STR);
-                $queryFinal = "%" . $query . "%";
-                $queryFinalFinal = $queryFinal . "%";
+                $queryFinal = '%' . $query . '%';
                 $sentencia->bindParam(1, $queryFinal);
-                $sentencia->bindParam(2, $queryFinal);
+                $sentencia->bindParam(2, $queryFinal);*/
+                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+                //'7802820701210' así queda al hacerle bind
+                // Preparar sentencia
+                $sentencia = $pdo->prepare($comando);
+                $queryFinal = "'%" . $query . "%'";
+                $sentencia->bindParam(1, $queryFinal);
 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
