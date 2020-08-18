@@ -136,7 +136,7 @@ class search
         }
     }
 
-    private static function retrieveSearchAllergy($leche,$gluten,$query)
+    private static function retrieveSearchAllergy2($leche,$gluten,$query)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
