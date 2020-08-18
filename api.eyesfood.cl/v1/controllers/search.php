@@ -207,10 +207,71 @@ class search
 
                 $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE %leche% LIMIT 50;";
                 $sentencia = $pdo->prepare($comando);
-                $sentencia->bindValue(':query',"'%".$query."%'"); 
             // Ejecutar sentencia preparada
             if ($sentencia->execute()) {
                 return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new ApiException(
+                    500,
+                    0,
+                    "Error de base de datos en el servidor",
+                    "http://localhost",
+                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
+                );
+            }
+
+        } catch (PDOException $e) {
+        throw new ApiException(
+            500,
+            0,
+            "Error de base de datos en el servidor",
+            "http://localhost",
+            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
+        }
+    }
+
+    private static function retrieveSearchFoods6($query)
+    {
+        try {
+            $pdo = MysqlManager::get()->getDb();
+
+            $sentencia = $pdo->prepare('SELECT * FROM alimentos WHERE nombreAlimento LIKE :keywords LIMIT 50');
+            $sentencia->bindValue(':keywords','%'.$query.'%'); 
+            // Ejecutar sentencia preparada
+            if ($sentencia->execute()) {
+                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new ApiException(
+                    500,
+                    0,
+                    "Error de base de datos en el servidor",
+                    "http://localhost",
+                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
+                );
+            }
+
+        } catch (PDOException $e) {
+        throw new ApiException(
+            500,
+            0,
+            "Error de base de datos en el servidor",
+            "http://localhost",
+            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
+        }
+    }
+
+        private static function retrieveSearchFoods6($query)
+    {
+        try {
+            $pdo = MysqlManager::get()->getDb();
+
+            $sentencia = $pdo->prepare('SELECT * FROM alimentos WHERE nombreAlimento LIKE :keywords LIMIT 50');
+            $sentencia->bindValue(':keywords','%'.$query.'%'); 
+            // Ejecutar sentencia preparada
+            if ($sentencia->execute()) {
+                while ($r=$sentencia->fetch(PDO::FETCH_ASSOC)) {
+                     echo"<pre>".print_r($r,true)."</pre>";
+                }
             } else {
                 throw new ApiException(
                     500,
