@@ -10,7 +10,7 @@ class search
 
         // TODO: 2. Verificaciones, restricciones, defensas
         //?????????????????????????????????????????????????
-        if (isset($urlSegments[2])) {
+        if (isset($urlSegments[4]) or isset($urlSegments[2])) {
             throw new ApiException(
                 400,
                 0,
@@ -22,13 +22,13 @@ class search
         //Hacer switch case para encontrar la URL tipo foods/codigodeBarra/aditivos
         //barcode=urlSegments[0], aditivos e ingredientes=urlSegments[1]
         
-        /*if (isset($urlSegments[4])) {
+        if (isset($urlSegments[3])) {
             switch ($urlSegments[0]){
                 case "noallergy":
                     return self::retrieveSearchAllergy($urlSegments[1],$urlSegments[2],$urlSegments[3]);
                     break;
             }         
-        }*/
+        }
         if (isset($urlSegments[1])) {
             switch ($urlSegments[0]){
                 case "foods":
