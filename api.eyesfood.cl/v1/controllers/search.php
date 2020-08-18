@@ -41,6 +41,9 @@ class search
                 case "foods5":
                     return self::retrieveSearchFoods5($urlSegments[1]);
                     break;
+                case "foods6":
+                    return self::retrieveSearchFoods6($urlSegments[1]);
+                    break;
                 case "additives":
                     return self::retrieveSearchAdditives($urlSegments[1]);
                     break;
@@ -229,6 +232,31 @@ class search
             "http://localhost",
             "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
         }
+    }
+
+    private static function retrieveSearchFoods6($query)
+    {
+        try {
+            $pdo = MysqlManager::get()->getDb();
+
+
+                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE :query LIMIT 50;";
+                $sentencia = $pdo->prepare($comando);
+                $sentencia->bindValue(':query',"'%".$query."%'"); 
+            // Ejecutar sentencia preparada
+
+            while ($r = $sentencia->fetch(PDO::FETCH_OBJ)) { 
+                reurtn echo $r->nombreAlimento,"<br>";
+             } 
+
+        } catch (PDOException $e) {
+        throw new ApiException(
+            500,
+            0,
+            "Error de base de datos en el servidor",
+            "http://localhost",
+            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
+        } "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
     }
     
     private static function retrieveSearchFoods($query)
