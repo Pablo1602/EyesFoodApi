@@ -420,19 +420,23 @@ class foods
         $idUsuario = $decodedParameters["idUsuario"];
         $codigoBarras = $decodedParameters["codigoBarras"];
         $nombreAlimento = $decodedParameters["nombreAlimento"];
+        $alergenos = $decodedParameters["alergenos"];
+        $trazas = $decodedParameters["trazas"];
 
         try {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO alimentos (idUsuario, codigoBarras, nombreAlimento)" .
-                " VALUES (?,?,?)";
+            $sentence = "INSERT INTO alimentos (idUsuario, codigoBarras, nombreAlimento, alergenos, trazas)" .
+                " VALUES (?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idUsuario);
             $preparedStament->bindParam(2, $codigoBarras);
             $preparedStament->bindParam(3, $nombreAlimento);
+            $preparedStament->bindParam(4, $alergenos);
+            $preparedStament->bindParam(5, $trazas);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
