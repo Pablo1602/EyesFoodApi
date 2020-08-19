@@ -359,6 +359,8 @@ class foods
         $sodio = $decodedParameters["sodio"];
         $ingredientes = $decodedParameters["ingredientes"];       
         $estadoAlimento = $decodedParameters["estadoAlimento"];
+        $alergenos = $decodedParameters["alergenos"];
+        $trazas = $decodedParameters["trazas"];
 
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -367,8 +369,8 @@ class foods
             $sentence = "INSERT INTO alimento_nuevo (idUsuario, codigoBarras, nombre, producto, marca, "
                     . "contenidoNeto, porcion, porcionGramos, energia, proteinas, grasaTotal, grasaSaturada, "
                     . "grasaMono, grasaPoli, grasaTrans, colesterol, hidratosCarbono, azucaresTotales, "
-                    . "fibra, sodio, ingredientes, estadoAlimento)" .
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    . "fibra, sodio, ingredientes, estadoAlimento, alergenos, trazas)" .
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
@@ -397,6 +399,8 @@ class foods
 //            Subida pendiente = 2
 //            Subida rechazada = 3          
             $preparedStament->bindParam(22, $estadoAlimento);
+            $preparedStament->bindParam(23, $alergenos);
+            $preparedStament->bindParam(24, $trazas);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
