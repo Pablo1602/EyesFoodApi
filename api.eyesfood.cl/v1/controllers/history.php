@@ -209,7 +209,7 @@ private static function retrieveHistoryFoodsUser($userId)
         try {
             $pdo = MysqlManager::get()->getDb();
             $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
-                    . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
+                    . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo,"
                     . " meGusta, escaneo"
                     . " FROM historial_escaneo"
                     . " LEFT JOIN alimentos ON historial_escaneo.codigoBarras = alimentos.codigoBarras"
@@ -424,7 +424,7 @@ private static function findShortFood($idUsuario, $codigoBarras) {
 
             // Componer sentencia SELECT
             $sentence = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
-                        . " alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
+                        . " alimentos.peligroAlimento, fechaEscaneo,"
                         . " meGusta"
                         . " FROM historial_escaneo"
                         . " LEFT JOIN alimentos ON historial_escaneo.codigoBarras = alimentos.codigoBarras"
@@ -662,7 +662,7 @@ private static function retrieveHistoryUploads($userId)
             $pdo = MysqlManager::get()->getDb();
 
                 $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
-                        . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
+                        . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo,"
                         . " meGusta"
                         . " FROM historial_escaneo"
                         . " LEFT JOIN alimentos ON historial_escaneo.codigoBarras = alimentos.codigoBarras"
@@ -702,7 +702,7 @@ private static function retrieveHistoryUploads($userId)
             $pdo = MysqlManager::get()->getDb();
 
                 $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
-                        . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
+                        . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo,"
                         . " meGusta"
                         . " FROM historial_escaneo"
                         . " LEFT JOIN alimentos ON historial_escaneo.codigoBarras = alimentos.codigoBarras"
@@ -742,7 +742,7 @@ private static function retrieveHistoryUploads($userId)
             $pdo = MysqlManager::get()->getDb();
 
                 $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
-                        . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
+                        . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo,"
                         . " meGusta"
                         . " FROM historial_escaneo"
                         . " LEFT JOIN alimentos ON historial_escaneo.codigoBarras = alimentos.codigoBarras"
