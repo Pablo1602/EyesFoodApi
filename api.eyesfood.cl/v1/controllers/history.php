@@ -208,7 +208,7 @@ private static function retrieveHistoryFoodsUser($userId)
     {
         try {
             $pdo = MysqlManager::get()->getDb();
-            $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombre,"
+            $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
                     . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
                     . " meGusta, escaneo"
                     . " FROM historial_escaneo"
@@ -423,7 +423,7 @@ private static function findShortFood($idUsuario, $codigoBarras) {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia SELECT
-            $sentence = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombre,"
+            $sentence = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
                         . " alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
                         . " meGusta"
                         . " FROM historial_escaneo"
@@ -661,7 +661,7 @@ private static function retrieveHistoryUploads($userId)
         try {
             $pdo = MysqlManager::get()->getDb();
 
-                $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombre,"
+                $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
                         . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
                         . " meGusta"
                         . " FROM historial_escaneo"
@@ -701,7 +701,7 @@ private static function retrieveHistoryUploads($userId)
         try {
             $pdo = MysqlManager::get()->getDb();
 
-                $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombre,"
+                $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
                         . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
                         . " meGusta"
                         . " FROM historial_escaneo"
@@ -741,7 +741,7 @@ private static function retrieveHistoryUploads($userId)
         try {
             $pdo = MysqlManager::get()->getDb();
 
-                $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombre,"
+                $comando = "SELECT historial_escaneo.idUsuario, historial_escaneo.codigoBarras, alimentos.nombreAlimento,"
                         . " alimentos.idPeligroAlimento, alimentos.peligroAlimento, fechaEscaneo, alimentos.fotoOficial,"
                         . " meGusta"
                         . " FROM historial_escaneo"
