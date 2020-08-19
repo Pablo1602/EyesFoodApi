@@ -175,7 +175,7 @@ private static function retrieveHistoryFoodsUser($userId)
                     . " meGusta"
                     . " FROM historial_escaneo"
                     . " LEFT JOIN alimentos ON historial_escaneo.codigoBarras = alimentos.codigoBarras"
-                    . " WHERE historial_escaneo.idUsuario = ? AND (historial_escaneo.escaneo = '1' OR historial_escaneo.escaneo = '2')"
+                    . " WHERE historial_escaneo.idUsuario = ? AND (historial_escaneo.escaneo = '0' OR historial_escaneo.escaneo = '1')"
                     . " ORDER BY fechaEscaneo DESC";
 
             // Preparar sentencia
