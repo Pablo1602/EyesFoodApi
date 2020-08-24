@@ -598,7 +598,7 @@ class foods
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idUsuario);
             $preparedStament->bindParam(2, $codigoBarras);
-            $preparedStament->bindParam(3, $nombre);
+            $preparedStament->bindParam(3, $nombreAlimento);
             $preparedStament->bindParam(4, $producto);
             $preparedStament->bindParam(5, $marca);
             $preparedStament->bindParam(6, $contenidoNeto);
@@ -616,9 +616,9 @@ class foods
             $preparedStament->bindParam(18, $azucaresTotales);
             $preparedStament->bindParam(19, $fibra);
             $preparedStament->bindParam(20, $sodio);
-            $preparedStament->bindParam(21, $date);
-            $preparedStament->bindParam(22, $estadoAlimento);
-            $preparedStament->bindParam(23, $ingredientes);
+            $preparedStament->bindParam(21, $ingredientes);
+            $preparedStament->bindParam(22, $date);
+            $preparedStament->bindParam(23, $estadoAlimento);
             $preparedStament->bindParam(24, $alergenos);
             $preparedStament->bindParam(25, $trazas);
 
