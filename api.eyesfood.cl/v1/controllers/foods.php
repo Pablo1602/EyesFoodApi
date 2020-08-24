@@ -560,7 +560,7 @@ class foods
         //Extraer datos del usuario
         $idUsuario = $decodedParameters["idUsuario"];
         $codigoBarras = $decodedParameters["codigoBarras"];
-        $nombre = $decodedParameters["nombre"];
+        $nombreAlimento = $decodedParameters["nombreAlimento"];
         $producto = $decodedParameters["producto"];
         $marca = $decodedParameters["marca"];
         $contenidoNeto = $decodedParameters["contenidoNeto"];
@@ -579,19 +579,20 @@ class foods
         $fibra = $decodedParameters["fibra"];
         $sodio = $decodedParameters["sodio"];
         $ingredientes = $decodedParameters["ingredientes"];
+        $date = $decodedParameters["date"];
+        $estadoAlimento = $decodedParameters["estadoAlimento"];
         $alergenos = $decodedParameters["alergenos"];
         $trazas = $decodedParameters["trazas"];
-        $fecha = $decodedParameters["fecha"];
 
         try {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO alimento_denuncia (idUsuario, codigoBarras, nombre, producto, marca, "
+            $sentence = "INSERT INTO alimento_denuncia (idUsuario, codigoBarras, nombreAlimento, producto, marca, "
                     . "contenidoNeto, porcion, porcionGramos, energia, proteinas, grasaTotal, grasaSaturada, "
                     . "grasaMono, grasaPoli, grasaTrans, colesterol, hidratosCarbono, azucaresTotales, "
-                    . "fibra, sodio, ingredientes, alergenos, trazas, fecha)" .
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    . "fibra, sodio, ingredientes, date, estadoAlimento, alergenos, trazas)" .
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
@@ -615,10 +616,11 @@ class foods
             $preparedStament->bindParam(18, $azucaresTotales);
             $preparedStament->bindParam(19, $fibra);
             $preparedStament->bindParam(20, $sodio);
-            $preparedStament->bindParam(21, $ingredientes);
-            $preparedStament->bindParam(22, $alergenos);
-            $preparedStament->bindParam(23, $trazas);
-            $preparedStament->bindParam(24, $fecha);
+            $preparedStament->bindParam(21, $date);
+            $preparedStament->bindParam(22, $estadoAlimento);
+            $preparedStament->bindParam(23, $ingredientes);
+            $preparedStament->bindParam(24, $alergenos);
+            $preparedStament->bindParam(25, $trazas);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
