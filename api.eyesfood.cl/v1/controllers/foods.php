@@ -579,6 +579,9 @@ class foods
         $fibra = $decodedParameters["fibra"];
         $sodio = $decodedParameters["sodio"];
         $ingredientes = $decodedParameters["ingredientes"];
+        $alergenos = $decodedParameters["alergenos"];
+        $trazas = $decodedParameters["trazas"];
+        $fecha = $decodedParameters["fecha"];
 
         try {
             $pdo = MysqlManager::get()->getDb();
@@ -587,8 +590,8 @@ class foods
             $sentence = "INSERT INTO alimento_denuncia (idUsuario, codigoBarras, nombre, producto, marca, "
                     . "contenidoNeto, porcion, porcionGramos, energia, proteinas, grasaTotal, grasaSaturada, "
                     . "grasaMono, grasaPoli, grasaTrans, colesterol, hidratosCarbono, azucaresTotales, "
-                    . "fibra, sodio, ingredientes)" .
-                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    . "fibra, sodio, ingredientes, alergenos, trazas, fecha)" .
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
@@ -613,6 +616,9 @@ class foods
             $preparedStament->bindParam(19, $fibra);
             $preparedStament->bindParam(20, $sodio);
             $preparedStament->bindParam(21, $ingredientes);
+            $preparedStament->bindParam(22, $alergenos);
+            $preparedStament->bindParam(23, $trazas);
+            $preparedStament->bindParam(24, $fecha);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
