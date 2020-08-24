@@ -201,22 +201,24 @@ class comments
         $idColaborador = $decodedParameters["idColaborador"];
         $colaborador = $decodedParameters["colaborador"];
         $comentario = $decodedParameters["comentario"];
+        $fecha = $decodedParameters["fecha"];
 
 
         try {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO comentarios (idColaborador, colaborador, comentario, idContextos, referencia)" .
-                " VALUES (?,?,?,?,?)";
+            $sentence = "INSERT INTO comentarios (idColaborador, colaborador, comentario, fecha, idContextos, referencia)" .
+                " VALUES (?,?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idColaborador);
             $preparedStament->bindParam(2, $colaborador);
             $preparedStament->bindParam(3, $comentario);
-            $preparedStament->bindParam(4, $idContextos);
-            $preparedStament->bindParam(5, $referencia);
+            $preparedStament->bindParam(4, $fecha);
+            $preparedStament->bindParam(5, $idContextos);
+            $preparedStament->bindParam(6, $referencia);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
@@ -270,22 +272,24 @@ class comments
         $idColaborador = $decodedParameters["idColaborador"];
         $colaborador = $decodedParameters["colaborador"];
         $comentario = $decodedParameters["comentario"];
+        $fecha = $decodedParameters["fecha"];
 
 
         try {
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO respuesta (idColaborador, colaborador, comentario, idComentario)" .
-                " VALUES (?,?,?,?)";
+            $sentence = "INSERT INTO respuesta (idColaborador, colaborador, comentario, fecha, idContextos, referencia)" .
+                " VALUES (?,?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idColaborador);
             $preparedStament->bindParam(2, $colaborador);
             $preparedStament->bindParam(3, $comentario);
-            $preparedStament->bindParam(4, $idComentario);
-
+            $preparedStament->bindParam(4, $fecha);
+            $preparedStament->bindParam(5, $idContextos);
+            $preparedStament->bindParam(6, $referencia);
             // Ejecutar sentencia
             return $preparedStament->execute();
 
@@ -468,7 +472,7 @@ class comments
 
             $comando = "SELECT COUNT(*) AS COUNT"
                     . " FROM comentarios"
-                    . " WHERE referencia = ? AND Borrar = 0";
+                    . " WHERE referencia = ?";
 
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
