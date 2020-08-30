@@ -153,7 +153,7 @@ class search
             else if($gluten == "1"){
                 $comando = "SELECT * FROM  alimentos WHERE nombreAlimento LIKE ? ".$glutenFiltro."".$Limit;
             }else{
-                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? LIMIT 50";
+                $comando = "SELECT * FROM alimentos WHERE nombreAlimento LIKE ? ".$Limit;
 
             }
             $sentencia = $pdo->prepare($comando);
