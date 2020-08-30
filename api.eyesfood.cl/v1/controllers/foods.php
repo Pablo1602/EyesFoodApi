@@ -339,7 +339,7 @@ class foods
         //Extraer datos del usuario
         $idUsuario = $decodedParameters["idUsuario"];
         $codigoBarras = $decodedParameters["codigoBarras"];
-        $nombre = $decodedParameters["nombre"];
+        $nombreAlimento = $decodedParameters["nombreAlimento"];
         $producto = $decodedParameters["producto"];
         $marca = $decodedParameters["marca"];
         $contenidoNeto = $decodedParameters["contenidoNeto"];
@@ -366,7 +366,7 @@ class foods
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO alimento_nuevo (idUsuario, codigoBarras, nombre, producto, marca, "
+            $sentence = "INSERT INTO alimento_nuevo (idUsuario, codigoBarras, nombreAlimento, producto, marca, "
                     . "contenidoNeto, porcion, porcionGramos, energia, proteinas, grasaTotal, grasaSaturada, "
                     . "grasaMono, grasaPoli, grasaTrans, colesterol, hidratosCarbono, azucaresTotales, "
                     . "fibra, sodio, ingredientes, estadoAlimento, alergenos, trazas)" .
@@ -376,7 +376,7 @@ class foods
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idUsuario);
             $preparedStament->bindParam(2, $codigoBarras);
-            $preparedStament->bindParam(3, $nombre);
+            $preparedStament->bindParam(3, $nombreAlimento);
             $preparedStament->bindParam(4, $producto);
             $preparedStament->bindParam(5, $marca);
             $preparedStament->bindParam(6, $contenidoNeto);
