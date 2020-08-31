@@ -7,7 +7,7 @@ class comments
 {
     public static function get($urlSegments)
     {
-        if (isset($urlSegments[2])) {
+        if (isset($urlSegments[3])) {
             throw new ApiException(
                 400,
                 0,
@@ -18,6 +18,13 @@ class comments
         }
         //Hacer switch case para encontrar la URL tipo comments/respuesta/{id}
         // o URL tipo comments/{contexto}/{id}
+        else if (isset($urlSegments[2])) {
+            switch ($urlSegments[0]) {
+                case 'web':
+                    return self::retrieveAllCommentsWeb($urlSegments[1], $urlSegments[2]);
+                    break;
+            }
+        }
         else if (isset($urlSegments[1])) {
             switch ($urlSegments[0]) {
                 case 'respuesta':
@@ -96,6 +103,42 @@ class comments
                 $comando = "SELECT * "
                         . "FROM comentarios "
                         . "WHERE idContextos = ? AND referencia = ? AND borrar = 0 ORDER BY fecha DESC";
+
+                // Preparar sentencia
+                $sentencia = $pdo->prepare($comando);
+                $sentencia->bindParam(1, $idContextos, PDO::PARAM_INT);
+                $sentencia->bindParam(2, $referencia, PDO::PARAM_INT);
+
+            // Ejecutar sentencia preparada, si pongo fetchAll muere el historial
+            if ($sentencia->execute()) {
+                return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                throw new ApiException(
+                    500,
+                    0,
+                    "Error de base de datos en el servidor",
+                    "http://localhost",
+                    "Hubo un error ejecutando una sentencia SQL en la base de datos. Detalles:" . $pdo->errorInfo()[2]
+                );
+            }
+
+        } catch (PDOException $e) {
+        throw new ApiException(
+            500,
+            0,
+            "Error de base de datos en el servidor",
+            "http://localhost",
+            "Ocurrió el siguiente error al consultar las citas médicas: " . $e->getMessage());
+        }
+    }
+
+    private static function retrieveAllCommentsWeb($idContextos, $referencia)
+    {
+        try {
+            $pdo = MysqlManager::get()->getDb();
+                $comando = "SELECT * "
+                        . "FROM comentarios "
+                        . "WHERE idContextos = ? AND referencia = ? ORDER BY fecha DESC";
 
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
