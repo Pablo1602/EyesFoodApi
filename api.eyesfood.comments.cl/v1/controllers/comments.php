@@ -322,17 +322,18 @@ class comments
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO respuesta (idColaborador, colaborador, comentario, fecha, idContextos, referencia)" .
-                " VALUES (?,?,?,?,?,?)";
+            //$sentence = "INSERT INTO respuesta (idColaborador, colaborador, ,comentario, fecha, idContextos, referencia) VALUES (?,?,?,?,?,?)";
+            $sentence = "INSERT INTO respuesta (idColaborador, colaborador, idComentario, comentario, fecha) VALUES (?,?,?,?,?)";
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
             $preparedStament->bindParam(1, $idColaborador);
             $preparedStament->bindParam(2, $colaborador);
-            $preparedStament->bindParam(3, $comentario);
-            $preparedStament->bindParam(4, $fecha);
-            $preparedStament->bindParam(5, $idContextos);
-            $preparedStament->bindParam(6, $referencia);
+            $preparedStament->bindParam(3, $idComentario);
+            $preparedStament->bindParam(4, $comentario);
+            $preparedStament->bindParam(5, $fecha);
+            //$preparedStament->bindParam(5, $idContextos);
+            //$preparedStament->bindParam(6, $referencia);
             // Ejecutar sentencia
             return $preparedStament->execute();
 
