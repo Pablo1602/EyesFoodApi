@@ -233,9 +233,9 @@ class users {
 
                     // Preparar sentencia
                     $preparedStament = $pdo->prepare($sentence);
-                    $preparedStament->bindParam(1, dbResult["idUsuario"]);
+                    $preparedStament->bindParam(1, $dbResult["idUsuario"]);
                     $preparedStament->execute();
-                    if(!(self::findUserAllergy(dbResult["idUsuario"]))){
+                    if(!(self::findUserAllergy($dbResult["idUsuario"]))){
                         throw new ApiException(
                             400,
                             0,
