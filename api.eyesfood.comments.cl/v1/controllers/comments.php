@@ -174,7 +174,7 @@ class comments
             $pdo = MysqlManager::get()->getDb();
                 $comando = "SELECT *"
                         . " FROM respuesta"
-                        . " WHERE idComentario = ?";
+                        . " WHERE idComentario = ? AND borrar = 0 ORDER BY fecha DESC";
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
                 // Ligar idContacto e idUsuario
