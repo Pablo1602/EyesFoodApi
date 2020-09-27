@@ -287,7 +287,7 @@ class users {
             // Componer sentencia SELECT
             $sentence = "SELECT *"
                 . " FROM usuarios"
-                . " WHERE Correo = ?";
+                . " WHERE Correo = ? AND Activo = 1";
 
             // Preparar sentencia
             $preparedSentence = $pdo->prepare($sentence);
