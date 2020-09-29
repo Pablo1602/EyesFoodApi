@@ -516,7 +516,7 @@ class comments
 
             $comando = "SELECT COUNT(*) AS COUNT"
                     . " FROM comentarios"
-                    . " WHERE referencia = ?";
+                    . " WHERE referencia = ? AND borrar = 0";
 
                 // Preparar sentencia
                 $sentencia = $pdo->prepare($comando);
