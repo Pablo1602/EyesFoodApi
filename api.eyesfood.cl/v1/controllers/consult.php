@@ -36,7 +36,7 @@ class consult
         else {
             if(isset($urlSegments[0])){
                 switch ($urlSegments[0]){
-                    case "consult":
+                    case "new":
                         return self::newConsult();
                         break;
                 }  
