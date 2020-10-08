@@ -79,7 +79,9 @@ class consult
 
         // Procesar resultado de la inserción
         if ($dbResult) {
-            return ["status" => 201, "message" => "Consulta creada"];
+            $idExperto = $decodedParameters["idExperto"];
+            $idUsuario = $decodedParameters["idUsuario"];
+            return ["status" => 201, "message" => "Consulta creada ".$idExperto." ".$idUsuario];
         } else {
             throw new ApiException(
                 500,
