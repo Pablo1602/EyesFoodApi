@@ -79,7 +79,7 @@ class consult
 
         // Procesar resultado de la inserción
         if ($dbResult) {
-            return ["status" => 201, "message" => "Alimento registrado"];
+            return ["status" => 201, "message" => "Consulta creada"];
         } else {
             throw new ApiException(
                 500,
@@ -101,7 +101,7 @@ class consult
             $pdo = MysqlManager::get()->getDb();
 
             // Componer sentencia INSERT
-            $sentence = "INSERT INTO consultas (idUsuario, codigoBarras)" .
+            $sentence = "INSERT INTO consultas (idExperto, idUsuario)" .
                 " VALUES (?,?)";
 
             // Preparar sentencia
