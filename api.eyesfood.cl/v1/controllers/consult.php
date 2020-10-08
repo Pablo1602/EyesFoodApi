@@ -108,8 +108,8 @@ class consult
 
             // Preparar sentencia
             $preparedStament = $pdo->prepare($sentence);
-            $preparedStament->bindParam(1, $idExperto);
-            $preparedStament->bindParam(2, $idUsuario);
+            $preparedStament->bindParam(1, $idExperto, PDO::PARAM_INT);
+            $preparedStament->bindParam(2, $idUsuario, PDO::PARAM_INT);
 
             // Ejecutar sentencia
             return $preparedStament->execute();
